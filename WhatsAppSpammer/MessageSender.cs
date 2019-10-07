@@ -1,10 +1,13 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace WhatsappSpammer
 {
@@ -37,10 +40,11 @@ namespace WhatsappSpammer
         public string sendMessage(string phone, string message)
         {
             string json = "{\"phone\":\"" + phone + "\"," +
-                          "\"body\":\"" + message + "\"}";
+                          "\"body\":\"" + HttpUtility.JavaScriptStringEncode(message) + "\"}";
             return SendJSON(json ,"sendMessage");
            
         }
+
         
         private string SendJSON(string json,string method)
         {
@@ -52,6 +56,7 @@ namespace WhatsappSpammer
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     streamWriter.Write(json);
+                    
                 }
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -60,7 +65,7 @@ namespace WhatsappSpammer
                 }
             }
             catch(WebException e) {
-                string errmsg = "Error: " + e.Message ;
+                string errmsg = "Error: " + e.Message + " " +  e.Response + " " + e.Status.ToString() ;
                 return errmsg;
             }
         }
@@ -68,6 +73,10 @@ namespace WhatsappSpammer
         public void AddNumberBase(string filename)
         {
             NumberBases.Add(filename, fileReader.GetNumberBase(filename));
+        }
+        public void RemoveNumberBase(string filename)
+        {
+            NumberBases.Remove(filename);
         }
         public void AddAllNumberBases()
         {
@@ -80,9 +89,9 @@ namespace WhatsappSpammer
         {
             return fileReader.GetFilenames();
         }
-        public List<string> GetNumberBases()
+        public Dictionary<string,NumberBase> GetNumberBases()
         {
-            return NumberBases.Keys.ToList(); ;
+            return NumberBases;
         }
         public List<string> SendMessages(string message)
         {

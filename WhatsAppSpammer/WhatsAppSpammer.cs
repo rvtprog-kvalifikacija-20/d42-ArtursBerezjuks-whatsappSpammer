@@ -14,10 +14,25 @@ namespace WhatsAppSpammer
     public partial class WhatsAppSpammer : Form
     {
         private MessageSender ms { get; set; }
+        private bool settingsChanged;
+        private int Count { get; set; }
+        public bool SettingsChanged { 
+            get { 
+                return SettingsChanged; 
+            } 
+            set {
+                settingsChanged = value;
+                buttonChangeAndSaveSettings.Enabled = value;
+            } 
+        }
         public WhatsAppSpammer()
         {
             InitializeComponent();
-            ms = new MessageSender(textBoxURL.Text, textBoxToken.Text, textBoxPath.Text);
+            textBoxURL.Text = Properties.Settings.Default.URL;
+            textBoxToken.Text = Properties.Settings.Default.Token;
+            textBoxPath.Text = Properties.Settings.Default.PathToDirectory;
+            ms = new MessageSender(Properties.Settings.Default.URL, Properties.Settings.Default.Token, Properties.Settings.Default.PathToDirectory);
+            SettingsChanged = false;
             var numberBases = ms.GetNumberBasesInDirectory();
             foreach (var item in numberBases)
             {
@@ -26,7 +41,7 @@ namespace WhatsAppSpammer
             var selectedNumberBases = ms.GetNumberBases();
             foreach (var item in selectedNumberBases)
             {
-                checkedListBoxPhoneBases.Items.Add(item);
+                listBoxSelectedPhoneBases.Items.Add(item);
             }
         }
 
@@ -43,31 +58,55 @@ namespace WhatsAppSpammer
 
         private void textBoxURL_TextChanged(object sender, EventArgs e)
         {
-            ms.Url = textBoxURL.Text;
+            SettingsChanged = true;
         }
 
         private void textBoxToken_TextChanged(object sender, EventArgs e)
         {
-            ms.Url = textBoxToken.Text;
+            SettingsChanged = true;
         }
 
         private void textBoxPath_TextChanged(object sender, EventArgs e)
         {
-            ms.ChangeFileReaderPath(textBoxPath.Text);
+            SettingsChanged = true;
         }
-
+        private void changeAndSaveSettings()
+        {
+            Properties.Settings.Default.URL = textBoxURL.Text;
+            Properties.Settings.Default.Token = textBoxToken.Text;
+            Properties.Settings.Default.PathToDirectory = textBoxPath.Text;
+            ms.Url = Properties.Settings.Default.URL;
+            ms.Token = Properties.Settings.Default.Token;
+            ms.ChangeFileReaderPath(Properties.Settings.Default.PathToDirectory);
+            Properties.Settings.Default.Save();
+        }
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            foreach (string numberBase in ms.GetNumberBases())
+            Count = 0;
+            var numberbases = ms.GetNumberBases().Values;
+            List<string> numbers = new List<string>{};
+            foreach (var item in numberbases)
             {
-                foreach(string number in numberBase)
+                Count += item.Numbers.Count;
+                numbers = numbers.Concat(item.Numbers).ToList();
+            }
+            progressBar.Value = 0;
+            progressBar.Maximum = Count;
+
+            string message = richTextBoxMessage.Text;
+            sendMessageToSelectedPhoneBases(message);
+        }
+        private void sendMessageToSelectedPhoneBases(string message)
+        {
+            foreach (NumberBase numberBase in ms.GetNumberBases().Values)
+            {
+                foreach (string number in numberBase.Numbers)
                 {
-                    ms.sendMessage(number, textBoxMessage.Text);
+                    listBoxServerAnswers.Items.Add(ms.sendMessage(number, message));
+                    progressBar.Value++;
                 }
             }
-            MessageBox.Show(ms.sendMessage("37127583637","works"));
         }
-
         private void listBoxPhoneBases_DoubleClick(object sender, EventArgs e)
         {
             int index = this.listBoxPhoneBases.SelectedIndex;
@@ -76,10 +115,43 @@ namespace WhatsAppSpammer
                 string filename = this.listBoxPhoneBases.Text;
                 listBoxPhoneBases.Items.RemoveAt(index);
                 ms.AddNumberBase(filename);
-                checkedListBoxPhoneBases.Items.Add(filename, true);
+                listBoxSelectedPhoneBases.Items.Add(filename);
             }
-            
-            
+        }
+
+        private void listBoxSelectedPhoneBases_Click(object sender, EventArgs e)
+        {
+            listBoxPhoneNumbers.Items.Clear();
+            string filename = this.listBoxSelectedPhoneBases.Text;
+
+            if (ms.GetNumberBases().Keys.Contains(filename))
+            {
+                NumberBase numberBase = ms.GetNumberBases()[filename];
+
+                foreach (string number in numberBase.Numbers)
+                {
+                    listBoxPhoneNumbers.Items.Add(number);
+                }
+            }
+        }
+
+        private void listBoxSelectedPhoneBases_DoubleClick(object sender, EventArgs e)
+        {
+            int index = this.listBoxSelectedPhoneBases.SelectedIndex;
+            if (index >= 0)
+            {
+                string filename = this.listBoxSelectedPhoneBases.Text;
+                listBoxSelectedPhoneBases.Items.RemoveAt(index);
+                ms.RemoveNumberBase(filename);
+                listBoxPhoneBases.Items.Add(filename);
+            }
+            listBoxPhoneNumbers.Items.Clear();
+        }
+
+        private void buttonChangeAndSaveSettings_Click(object sender, EventArgs e)
+        {
+            changeAndSaveSettings();
+            SettingsChanged = false;
         }
     }
 }
