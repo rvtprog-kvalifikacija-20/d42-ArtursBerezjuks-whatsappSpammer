@@ -39,9 +39,10 @@
             this.labelURL = new System.Windows.Forms.Label();
             this.textBoxURL = new System.Windows.Forms.TextBox();
             this.tabMessages = new System.Windows.Forms.TabPage();
-            this.buttonTest = new System.Windows.Forms.Button();
-            this.checkedListBoxPhoneBases = new System.Windows.Forms.CheckedListBox();
             this.listBoxPhoneBases = new System.Windows.Forms.ListBox();
+            this.checkedListBoxPhoneBases = new System.Windows.Forms.CheckedListBox();
+            this.buttonTest = new System.Windows.Forms.Button();
+            this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabMessages.SuspendLayout();
@@ -157,6 +158,7 @@
             // 
             // tabMessages
             // 
+            this.tabMessages.Controls.Add(this.textBoxMessage);
             this.tabMessages.Controls.Add(this.listBoxPhoneBases);
             this.tabMessages.Controls.Add(this.checkedListBoxPhoneBases);
             this.tabMessages.Controls.Add(this.buttonTest);
@@ -168,6 +170,23 @@
             this.tabMessages.Text = "Messages";
             this.tabMessages.UseVisualStyleBackColor = true;
             // 
+            // listBoxPhoneBases
+            // 
+            this.listBoxPhoneBases.FormattingEnabled = true;
+            this.listBoxPhoneBases.Location = new System.Drawing.Point(6, 6);
+            this.listBoxPhoneBases.Name = "listBoxPhoneBases";
+            this.listBoxPhoneBases.Size = new System.Drawing.Size(120, 407);
+            this.listBoxPhoneBases.TabIndex = 2;
+            this.listBoxPhoneBases.DoubleClick += new System.EventHandler(this.listBoxPhoneBases_DoubleClick);
+            // 
+            // checkedListBoxPhoneBases
+            // 
+            this.checkedListBoxPhoneBases.FormattingEnabled = true;
+            this.checkedListBoxPhoneBases.Location = new System.Drawing.Point(132, 6);
+            this.checkedListBoxPhoneBases.Name = "checkedListBoxPhoneBases";
+            this.checkedListBoxPhoneBases.Size = new System.Drawing.Size(120, 409);
+            this.checkedListBoxPhoneBases.TabIndex = 1;
+            // 
             // buttonTest
             // 
             this.buttonTest.Location = new System.Drawing.Point(687, 6);
@@ -178,22 +197,12 @@
             this.buttonTest.UseVisualStyleBackColor = true;
             this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
-            // checkedListBoxPhoneBases
+            // textBoxMessage
             // 
-            this.checkedListBoxPhoneBases.FormattingEnabled = true;
-            this.checkedListBoxPhoneBases.Location = new System.Drawing.Point(132, 32);
-            this.checkedListBoxPhoneBases.Name = "checkedListBoxPhoneBases";
-            this.checkedListBoxPhoneBases.Size = new System.Drawing.Size(120, 379);
-            this.checkedListBoxPhoneBases.TabIndex = 1;
-            // 
-            // listBoxPhoneBases
-            // 
-            this.listBoxPhoneBases.FormattingEnabled = true;
-            this.listBoxPhoneBases.Location = new System.Drawing.Point(6, 32);
-            this.listBoxPhoneBases.Name = "listBoxPhoneBases";
-            this.listBoxPhoneBases.Size = new System.Drawing.Size(120, 381);
-            this.listBoxPhoneBases.TabIndex = 2;
-            this.listBoxPhoneBases.DoubleClick += new System.EventHandler(this.listBoxPhoneBases_DoubleClick);
+            this.textBoxMessage.Location = new System.Drawing.Point(258, 6);
+            this.textBoxMessage.Name = "textBoxMessage";
+            this.textBoxMessage.Size = new System.Drawing.Size(296, 20);
+            this.textBoxMessage.TabIndex = 3;
             // 
             // WhatsAppSpammer
             // 
@@ -207,6 +216,7 @@
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
             this.tabMessages.ResumeLayout(false);
+            this.tabMessages.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -227,6 +237,7 @@
         private System.Windows.Forms.Button buttonTest;
         private System.Windows.Forms.CheckedListBox checkedListBoxPhoneBases;
         private System.Windows.Forms.ListBox listBoxPhoneBases;
+        private System.Windows.Forms.TextBox textBoxMessage;
     }
 }
 

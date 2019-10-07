@@ -58,6 +58,13 @@ namespace WhatsAppSpammer
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
+            foreach (string numberBase in ms.GetNumberBases())
+            {
+                foreach(string number in numberBase)
+                {
+                    ms.sendMessage(number, textBoxMessage.Text);
+                }
+            }
             MessageBox.Show(ms.sendMessage("37127583637","works"));
         }
 
