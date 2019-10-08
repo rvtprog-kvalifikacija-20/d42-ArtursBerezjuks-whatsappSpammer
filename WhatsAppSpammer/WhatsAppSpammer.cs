@@ -102,6 +102,12 @@ namespace WhatsAppSpammer
             {
                 foreach (string number in numberBase.Numbers)
                 {
+                    listBoxQueue.Items.Clear();
+                    foreach (var item in ms.getRequest("showMessagesQueue"))
+                    {
+                        listBoxQueue.Items.Add(item);
+                    }
+                    
                     listBoxServerAnswers.Items.Add(ms.sendMessage(number, message));
                     progressBar.Value++;
                 }

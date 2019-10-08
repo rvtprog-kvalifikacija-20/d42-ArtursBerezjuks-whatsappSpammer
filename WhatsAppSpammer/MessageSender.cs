@@ -44,8 +44,21 @@ namespace WhatsappSpammer
             return SendJSON(json ,"sendMessage");
            
         }
+        public string getRequest(string method)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url + "/" + method + "?token=" + Token);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+            string json = "";
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                json = reader.ReadToEnd();
+            }
+            return json;
+        }
 
-        
+
         private string SendJSON(string json,string method)
         {
              try
