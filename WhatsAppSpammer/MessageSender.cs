@@ -44,6 +44,13 @@ namespace WhatsappSpammer
             return SendJSON(json ,"sendMessage");
            
         }
+        public async Task<string> sendMessageAsync(string phone, string message)
+        {
+            string json = "{\"phone\":\"" + phone + "\"," +
+                          "\"body\":\"" + HttpUtility.JavaScriptStringEncode(message) + "\"}";
+            return await SendJSONAsync(json, "sendMessage");
+
+        }
         public string getRequest(string method)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url + "/" + method + "?token=" + Token);
@@ -51,13 +58,20 @@ namespace WhatsappSpammer
             string json = "";
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                json = reader.ReadToEnd();
-            }
+            
             return json;
         }
-
+        public async Task<string> getRequestAsync(string method)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url + "/" + method + "?token=" + Token);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+            using (HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync())
+            using (Stream stream =  response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
 
         private string SendJSON(string json,string method)
         {
@@ -82,7 +96,33 @@ namespace WhatsappSpammer
                 return errmsg;
             }
         }
+        private async Task<string> SendJSONAsync(string json, string method)
+        {
+            try
+            {
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url + "/" + method + "?token=" + Token);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                }
 
+                using (HttpWebResponse httpResponse = (HttpWebResponse) await httpWebRequest.GetResponseAsync())
+                {
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        return streamReader.ReadToEnd();
+                    }
+                }
+                
+            }
+            catch (WebException e)
+            {
+                string errmsg = "Error: " + e.Message + " " + e.Response + " " + e.Status.ToString();
+                return errmsg;
+            }
+        }
         public void AddNumberBase(string filename)
         {
             NumberBases.Add(filename, fileReader.GetNumberBase(filename));

@@ -96,22 +96,19 @@ namespace WhatsAppSpammer
             string message = richTextBoxMessage.Text;
             sendMessageToSelectedPhoneBases(message);
         }
-        private void sendMessageToSelectedPhoneBases(string message)
+        private async void sendMessageToSelectedPhoneBases(string message)
         {
+            buttonSendMessages.Enabled = false;
             foreach (NumberBase numberBase in ms.GetNumberBases().Values)
             {
                 foreach (string number in numberBase.Numbers)
                 {
-                    listBoxQueue.Items.Clear();
-                    foreach (var item in ms.getRequest("showMessagesQueue"))
-                    {
-                        listBoxQueue.Items.Add(item);
-                    }
+                    listBoxServerAnswers.Items.Add(await Task.Run(()=>ms.sendMessageAsync(number, message)));
                     
-                    listBoxServerAnswers.Items.Add(ms.sendMessage(number, message));
                     progressBar.Value++;
                 }
             }
+            buttonSendMessages.Enabled = true;
         }
         private void listBoxPhoneBases_DoubleClick(object sender, EventArgs e)
         {
@@ -158,6 +155,28 @@ namespace WhatsAppSpammer
         {
             changeAndSaveSettings();
             SettingsChanged = false;
+        }
+
+        private async void buttontTest_Click(object sender, EventArgs e)
+        {
+            Random r = new Random();
+            int count = 0;
+            var startTime = DateTime.Now.ToLocalTime();
+            while (true)
+            {
+                int number = r.Next(7999999) + 2000000;
+
+                string response = await Task.Run(() => ms.sendMessageAsync("3712" + number.ToString(), r.Next().ToString()));
+                
+                listBoxServerAnswers.Items.Add(response);
+                if (response.Contains("not equals authenticated."))
+                {
+                    return;
+                }
+                count++;
+                string timediff = (DateTime.Now.ToLocalTime() - startTime).ToString();
+                labelServerAnswer.Text = "Server answers: (Count:" + count.ToString() + " Timediff: " + timediff + ")";
+            }
         }
     }
 }

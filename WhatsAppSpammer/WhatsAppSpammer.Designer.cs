@@ -51,7 +51,7 @@
             this.listBoxSelectedPhoneBases = new System.Windows.Forms.ListBox();
             this.listBoxPhoneBases = new System.Windows.Forms.ListBox();
             this.buttonSendMessages = new System.Windows.Forms.Button();
-            this.listBoxQueue = new System.Windows.Forms.ListBox();
+            this.buttontTest = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabMessages.SuspendLayout();
@@ -176,7 +176,7 @@
             // 
             // tabMessages
             // 
-            this.tabMessages.Controls.Add(this.listBoxQueue);
+            this.tabMessages.Controls.Add(this.buttontTest);
             this.tabMessages.Controls.Add(this.labelServerAnswer);
             this.tabMessages.Controls.Add(this.labelPhoneNumbers);
             this.tabMessages.Controls.Add(this.labelSelectadBases);
@@ -237,7 +237,7 @@
             this.listBoxServerAnswers.FormattingEnabled = true;
             this.listBoxServerAnswers.Location = new System.Drawing.Point(8, 169);
             this.listBoxServerAnswers.Name = "listBoxServerAnswers";
-            this.listBoxServerAnswers.Size = new System.Drawing.Size(428, 238);
+            this.listBoxServerAnswers.Size = new System.Drawing.Size(766, 238);
             this.listBoxServerAnswers.TabIndex = 8;
             // 
             // progressBar
@@ -293,13 +293,15 @@
             this.buttonSendMessages.UseVisualStyleBackColor = true;
             this.buttonSendMessages.Click += new System.EventHandler(this.buttonTest_Click);
             // 
-            // listBoxQueue
+            // buttontTest
             // 
-            this.listBoxQueue.FormattingEnabled = true;
-            this.listBoxQueue.Location = new System.Drawing.Point(442, 169);
-            this.listBoxQueue.Name = "listBoxQueue";
-            this.listBoxQueue.Size = new System.Drawing.Size(332, 238);
-            this.listBoxQueue.TabIndex = 13;
+            this.buttontTest.Location = new System.Drawing.Point(471, 140);
+            this.buttontTest.Name = "buttontTest";
+            this.buttontTest.Size = new System.Drawing.Size(303, 23);
+            this.buttontTest.TabIndex = 13;
+            this.buttontTest.Text = "Send message";
+            this.buttontTest.UseVisualStyleBackColor = true;
+            this.buttontTest.Click += new System.EventHandler(this.buttontTest_Click);
             // 
             // WhatsAppSpammer
             // 
@@ -343,7 +345,7 @@
         private System.Windows.Forms.Label labelPhoneNumbers;
         private System.Windows.Forms.Label labelServerAnswer;
         private System.Windows.Forms.Button buttonChangeAndSaveSettings;
-        private System.Windows.Forms.ListBox listBoxQueue;
+        private System.Windows.Forms.Button buttontTest;
     }
 }
 
