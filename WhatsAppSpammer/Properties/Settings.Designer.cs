@@ -59,5 +59,17 @@ namespace WhatsAppSpammer.Properties {
                 this["PathToDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("UiAutomator1")]
+        public string AutomationName {
+            get {
+                return ((string)(this["AutomationName"]));
+            }
+            set {
+                this["AutomationName"] = value;
+            }
+        }
     }
 }

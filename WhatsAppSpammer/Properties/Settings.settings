@@ -11,5 +11,8 @@
     <Setting Name="PathToDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\User\source\repos\WhatsAppSpammer\WhatsAppSpammer\bin\Debug\phoneNumbers</Value>
     </Setting>
+    <Setting Name="AutomationName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">UiAutomator1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
