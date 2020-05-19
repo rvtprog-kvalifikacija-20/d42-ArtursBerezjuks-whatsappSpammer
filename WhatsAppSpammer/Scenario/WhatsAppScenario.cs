@@ -14,12 +14,13 @@ namespace WhatsAppSpammer
         public static async void Registration(
             string emulatorImageName,
             string proxy,
-            AbstractSmsRegistrator smsRegistrator
+            AppiumDevice appium,
+            AbstractSmsRegistrator smsRegistrator,
+            string nickname
         )
         {
             bool banned = false;
             int iterations = 0;
-            AppiumDevice appium;
             string command = "emulator @" + emulatorImageName;
             if (!proxy.IsNullOrEmpty())
             {
@@ -54,7 +55,6 @@ namespace WhatsAppSpammer
                     await Task.Delay(1000);
                 }
             }
-
             /*Import Contacts*/
             iterations = 0;
             while (iterations < 60)
@@ -101,7 +101,7 @@ namespace WhatsAppSpammer
                     Logger.log("Registration started");
                     appium = new AppiumDevice(Apps.WhatsApp,
                             Apps.WhatsAppActivity_Eula,
-                            new Device(comboBoxAppium.Text));
+                            new Device(emulatorImageName));
                     banned = await WhatsAppScenario.Registration(appium, number, "7");
                     if (banned)
                     {
@@ -138,15 +138,8 @@ namespace WhatsAppSpammer
                     await Task.Delay(2000);
                 }
             }
-            try
-            {
-                smsRegistrator.PhoneReady("7" + number);
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SMS ACTIVATE");
-            }
+           
+            smsRegistrator.PhoneReady("7" + number);
 
             iterations = 0;
             while (iterations < 1200)
@@ -179,7 +172,7 @@ namespace WhatsAppSpammer
             {
                 try
                 {
-                    WhatsAppScenario.WriteName(appium, textBoxName.Text);
+                    WhatsAppScenario.WriteName(appium, nickname);
                     break;
                 }
                 catch
@@ -225,7 +218,6 @@ namespace WhatsAppSpammer
             { 
                 try
                 {
-                    
                     var el5 = ap.GetElementByID("android:id/button1");
                     var message = ap.GetElementByID("android:id/message");
                     if (message.Text.Contains("banned"))
@@ -241,7 +233,7 @@ namespace WhatsAppSpammer
                 catch
                 {
                     iterations++; 
-                    await Task.Delay(10000);
+                    await Task.Delay(500);
                 }           
             }
             Logger.log("Waiting for code");
