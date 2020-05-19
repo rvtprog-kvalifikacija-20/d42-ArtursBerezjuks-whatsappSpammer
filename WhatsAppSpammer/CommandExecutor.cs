@@ -57,37 +57,30 @@ namespace WhatsAppSpammer
         }
         public static string ExecuteCommandsSync(List<string> commands)
         {
-            try
+            string result = "";
+            System.Diagnostics.ProcessStartInfo procStartInfo =
+                new System.Diagnostics.ProcessStartInfo("cmd", "/c ");
+
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.RedirectStandardError = true;
+            procStartInfo.RedirectStandardInput = true;
+            procStartInfo.UseShellExecute = false;
+
+            procStartInfo.CreateNoWindow = true;
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.OutputDataReceived += (s, e) => { result += e.Data; };
+            proc.ErrorDataReceived += (s, e) => { result += e.Data; };
+            proc.Start();
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
+            foreach (var command in commands)
             {
-                string result = "";
-                System.Diagnostics.ProcessStartInfo procStartInfo =
-                    new System.Diagnostics.ProcessStartInfo("cmd", "/c ");
+                proc.StandardInput.WriteLine(command);
 
-                procStartInfo.RedirectStandardOutput = true;
-                procStartInfo.RedirectStandardError = true;
-                procStartInfo.RedirectStandardInput = true;
-                procStartInfo.UseShellExecute = false;
-
-                procStartInfo.CreateNoWindow = true;
-                System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                proc.StartInfo = procStartInfo;
-                proc.OutputDataReceived += (s, e) => { result += e.Data; };
-                proc.ErrorDataReceived += (s, e) => { result += e.Data; };
-                proc.Start();
-                proc.BeginOutputReadLine();
-                proc.BeginErrorReadLine();
-                foreach (var command in commands)
-                {
-                    proc.StandardInput.WriteLine(command);
-
-                }
-                proc.WaitForExit();
-                return result;
             }
-            catch (Exception objException)
-            {
-                return objException.Message;
-            }
+            proc.WaitForExit();
+            return result;
         }
 
         public static void ExecuteCommandSync(object command)
@@ -103,57 +96,27 @@ namespace WhatsAppSpammer
         }
         public static string ExecuteCommandAsync(string command)
         {
-            try
+            string result = "";
+            Thread objThread = new Thread(stat =>
             {
-                string result = "";
-                Thread objThread = new Thread(stat =>
-                {
-                    result = ExecuteCommandSync(command);
-                });
-                objThread.IsBackground = true;
-                objThread.Priority = ThreadPriority.AboveNormal;
-                objThread.Start();
-                return result;
-            }
-            catch (ThreadStartException objException)
-            {
-                return objException.Message;
-            }
-            catch (ThreadAbortException objException)
-            {
-                return objException.Message;
-            }
-            catch (Exception objException)
-            {
-                return objException.Message;
-            }
+                result = ExecuteCommandSync(command);
+            });
+            objThread.IsBackground = true;
+            objThread.Priority = ThreadPriority.AboveNormal;
+            objThread.Start();
+            return result;   
         }
         public static string ExecuteCommandsAsync(List<string> commands)
         {
-            try
+            string result = "";
+            Thread objThread = new Thread(stat =>
             {
-                string result = "";
-                Thread objThread = new Thread(stat =>
-                {
-                    result = ExecuteCommandsSync(commands);
-                });
-                objThread.IsBackground = true;
-                objThread.Priority = ThreadPriority.AboveNormal;
-                objThread.Start();
-                return result;
-            }
-            catch (ThreadStartException objException)
-            {
-                return objException.Message;
-            }
-            catch (ThreadAbortException objException)
-            {
-                return objException.Message;
-            }
-            catch (Exception objException)
-            {
-                return objException.Message;
-            }
+                result = ExecuteCommandsSync(commands);
+            });
+            objThread.IsBackground = true;
+            objThread.Priority = ThreadPriority.AboveNormal;
+            objThread.Start();
+            return result;
         }
         public static void ExecuteCommandAsyncVoid(string command)
         {

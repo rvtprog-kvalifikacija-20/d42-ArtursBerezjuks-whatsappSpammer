@@ -15,6 +15,7 @@ using Xamarin.UITest.Queries;
 using System.Management.Automation;
 using System.Threading;
 using MixERP.Net.VCards;
+using System.Configuration;
 
 namespace WhatsAppSpammer
 {
@@ -26,7 +27,6 @@ namespace WhatsAppSpammer
         private bool settingsChanged;
         private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
-        CancellationTokenSource automatizationTokenSource;
         private int Count { get; set; }
         public bool SettingsChanged
         {
@@ -55,18 +55,12 @@ namespace WhatsAppSpammer
                 comboBoxAppium.Items.Add(item);
             }
 
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/eula_accept");
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/registration_phone");
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/registration_submit");
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/registration_cc");
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/registration_country");
-            comboBoxWhatsAppIds.Items.Add("com.whatsapp:id/verify_sms_code_input");
 
             //com.whatsapp:id/eula_accept 
             //com.whatsapp:id/registration_phone
             //com.whatsapp:id/registration_submit
             //com.whatsapp:id/registration_cc
-            //	android:id/button1
+            //android:id/button1
             //com.whatsapp:id/verify_sms_code_input
             string ApiKey = "0b14A211b582d99284d438434299fb71";
             string Referal = "424401";
@@ -74,7 +68,7 @@ namespace WhatsAppSpammer
             smsRegistrator = new SmsActivate(ApiKey, Referal, Country);
             textBoxName.Text = "Nickname";
 
-            string response = ApiRequest.GetRequestSync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
+            string response = ""; // ApiRequest.GetRequestSync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
             string[] adresses = response.Split('\n');
             Random rand = new Random();
             int index = rand.Next(0, adresses.Length);
@@ -247,10 +241,7 @@ namespace WhatsAppSpammer
         }
 
 
-        public async void Automatization(
-            string emulatorImageName,
-            CancellationTokenSource cancellationTokenSource
-        ) {
+        public async void Automatization(string emulatorImageName) {
             checkActivity.Enabled = true;
             bool banned = false;
             // string command = "cd " + textBoxAppiumSendKeys.Text;
@@ -265,7 +256,7 @@ namespace WhatsAppSpammer
             }
             command += " -wipe-data -no-snapshot-load";
 
-            Logger.log("Emulator starting");
+            Logger.log("Emulator starting at proxy ");
             CommandExecutor.ExecuteCommandAsync(command);
             await Task.Delay(5000);
 
@@ -431,14 +422,14 @@ namespace WhatsAppSpammer
         {
             Invoke( new Action(async () =>
             {
-                automatizationTokenSource = new CancellationTokenSource();
                 try
                 {
-                    Automatization(comboBoxAppium.Text, automatizationTokenSource);
+                    
+                    //Automatization(comboBoxAppium.Text, automatizationTokenSource);
                 }
-                catch (TaskCanceledException)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Canceled");
+                    MessageBox.Show(ex.Message);
                 }
             }));
 
@@ -608,21 +599,23 @@ namespace WhatsAppSpammer
 
         private void buttonEmulator_Click(object sender, EventArgs e)
         {
-            Invoke(new Action(() =>
-            {
-                checkActivity.Enabled = true;
-                string command = "emulator @" + comboBoxAppium.Text;
-                if (textBoxProxy.Text != "")
+            Invoke(new Action(
+                () =>
                 {
-                    command += " -http-proxy " + textBoxProxy.Text;
-                    System.IO.File.AppendAllText("usedproxy.txt", textBoxProxy.Text + '\n');
+                    checkActivity.Enabled = true;
+                    string command = "emulator @" + comboBoxAppium.Text;
+                    if (textBoxProxy.Text != "")
+                    {
+                        command += " -http-proxy " + textBoxProxy.Text;
+                        System.IO.File.AppendAllText("usedproxy.txt", textBoxProxy.Text + '\n');
 
-                }
-                command += " -wipe-data -no-snapshot-load";
+                    }
+                    command += " -wipe-data -no-snapshot-load";
 
-                CommandExecutor.ExecuteCommandAsync(command);
+                    CommandExecutor.ExecuteCommandAsync(command);
 
-            }));
+                })
+            );
         }
 
         private void buttonGetActivity_Click(object sender, EventArgs e)
@@ -635,6 +628,13 @@ namespace WhatsAppSpammer
         {
 
         }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            new SettingForm();
+        }
+
+
     }
 }
 

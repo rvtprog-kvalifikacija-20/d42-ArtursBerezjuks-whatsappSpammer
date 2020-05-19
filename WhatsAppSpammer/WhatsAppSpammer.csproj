@@ -247,6 +247,7 @@
       <DependentUpon>DeviceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="SettingForm.cs" />
     <Compile Include="SmsRegistrator\ActivationNumber.cs" />
     <Compile Include="SmsRegistrator\AbstractSmsRegistrator.cs" />
     <Compile Include="SmsRegistrator\Registrator5SIM.cs" />
@@ -285,7 +286,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">

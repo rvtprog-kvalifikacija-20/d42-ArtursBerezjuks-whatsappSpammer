@@ -73,6 +73,7 @@
             this.listBoxPhoneBases = new System.Windows.Forms.ListBox();
             this.checkActivity = new System.Windows.Forms.Timer(this.components);
             this.timerGetCode = new System.Windows.Forms.Timer(this.components);
+            this.Settings = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabMessages.SuspendLayout();
@@ -92,6 +93,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.Settings);
             this.tabSettings.Controls.Add(this.textBoxAppiumSendKeys);
             this.tabSettings.Controls.Add(this.buttonGetActivity);
             this.tabSettings.Controls.Add(this.buttonEmulator);
@@ -513,6 +515,16 @@
             // 
             this.timerGetCode.Tick += new System.EventHandler(this.timerGetCode_Tick);
             // 
+            // Settings
+            // 
+            this.Settings.Location = new System.Drawing.Point(11, 145);
+            this.Settings.Name = "Settings";
+            this.Settings.Size = new System.Drawing.Size(75, 23);
+            this.Settings.TabIndex = 41;
+            this.Settings.Text = "Settings";
+            this.Settings.UseVisualStyleBackColor = true;
+            this.Settings.Click += new System.EventHandler(this.Settings_Click);
+            // 
             // WhatsAppSpammer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -577,6 +589,7 @@
         private System.Windows.Forms.Button buttonEmulator;
         private System.Windows.Forms.Button buttonGetActivity;
         private System.Windows.Forms.RichTextBox textBoxAppiumSendKeys;
+        private System.Windows.Forms.Button Settings;
     }
 }
 

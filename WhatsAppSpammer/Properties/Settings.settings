@@ -17,5 +17,11 @@
     <Setting Name="PathToSDK" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:/Program Files (x86)/Android/android-sdk</Value>
     </Setting>
+    <Setting Name="WhatsAppApk" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Android\android-sdk\platform-tools\WhatsApp.apk</Value>
+    </Setting>
+    <Setting Name="ContactsApk" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Android\android-sdk\platform-tools\com.kitkatandroid.contacts.com.apk</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -19,8 +19,8 @@ namespace WhatsAppSpammer
     }
     public static class Apps   
     {
-        public static App WhatsApp = new App("C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\WhatsApp.apk", "com.whatsapp");
-        public static App Contacts = new App("C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\com.kitkatandroid.contacts.com.apk", "com.android.contacts");
+        public static App WhatsApp = new App(Properties.Settings.Default.WhatsAppApk, "com.whatsapp");
+        public static App Contacts = new App(Properties.Settings.Default.ContactsApk, "com.android.contacts");
         public static string WhatsAppActivity_Main = "com.whatsapp.Main";
         public static string ContatsActivity_Main = ".activities.PeopleActivity";
         public static string WhatsAppActivity_Eula = "com.whatsapp.registration.EULA";

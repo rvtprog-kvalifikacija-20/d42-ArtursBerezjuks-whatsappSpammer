@@ -9,9 +9,13 @@ namespace WhatsAppSpammer
     public class Device
     {
         public string ID { get; set; }
+
         public string Platform { get; set; }
+
         public string Version { get; set; }
+
         public string Name { get; set; }
+
         public Device(Device device)
         {
             ID = device.ID;
@@ -28,5 +32,9 @@ namespace WhatsAppSpammer
             Name = deviceName;
         }
 
+        public string GetActivity()
+        {
+           return CommandExecutor.ExecuteCommandSync("adb shell dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
+        }
     }
 }
