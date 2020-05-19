@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
-            this.buttonStopAppium = new System.Windows.Forms.Button();
+            this.textBoxAppiumSendKeys = new System.Windows.Forms.RichTextBox();
             this.buttonGetActivity = new System.Windows.Forms.Button();
             this.buttonEmulator = new System.Windows.Forms.Button();
             this.textBoxName = new System.Windows.Forms.TextBox();
@@ -49,7 +49,6 @@
             this.buttonClear = new System.Windows.Forms.Button();
             this.textBoxProxy = new System.Windows.Forms.TextBox();
             this.comboBoxWhatsAppIds = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBoxSDKPath = new System.Windows.Forms.TextBox();
             this.labelSDKPath = new System.Windows.Forms.Label();
             this.buttonEmulatorRun = new System.Windows.Forms.Button();
@@ -62,10 +61,6 @@
             this.labelPath = new System.Windows.Forms.Label();
             this.buttonChangePath = new System.Windows.Forms.Button();
             this.labelChangePath = new System.Windows.Forms.Label();
-            this.labelToken = new System.Windows.Forms.Label();
-            this.textBoxToken = new System.Windows.Forms.TextBox();
-            this.labelURL = new System.Windows.Forms.Label();
-            this.textBoxURL = new System.Windows.Forms.TextBox();
             this.tabMessages = new System.Windows.Forms.TabPage();
             this.buttontTest = new System.Windows.Forms.Button();
             this.labelServerAnswer = new System.Windows.Forms.Label();
@@ -76,10 +71,8 @@
             this.richTextBoxMessage = new System.Windows.Forms.RichTextBox();
             this.listBoxSelectedPhoneBases = new System.Windows.Forms.ListBox();
             this.listBoxPhoneBases = new System.Windows.Forms.ListBox();
-            this.buttonSendMessages = new System.Windows.Forms.Button();
             this.checkActivity = new System.Windows.Forms.Timer(this.components);
             this.timerGetCode = new System.Windows.Forms.Timer(this.components);
-            this.textBoxAppiumSendKeys = new System.Windows.Forms.RichTextBox();
             this.tabControl.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.tabMessages.SuspendLayout();
@@ -100,7 +93,6 @@
             // tabSettings
             // 
             this.tabSettings.Controls.Add(this.textBoxAppiumSendKeys);
-            this.tabSettings.Controls.Add(this.buttonStopAppium);
             this.tabSettings.Controls.Add(this.buttonGetActivity);
             this.tabSettings.Controls.Add(this.buttonEmulator);
             this.tabSettings.Controls.Add(this.textBoxName);
@@ -118,7 +110,6 @@
             this.tabSettings.Controls.Add(this.buttonClear);
             this.tabSettings.Controls.Add(this.textBoxProxy);
             this.tabSettings.Controls.Add(this.comboBoxWhatsAppIds);
-            this.tabSettings.Controls.Add(this.label2);
             this.tabSettings.Controls.Add(this.textBoxSDKPath);
             this.tabSettings.Controls.Add(this.labelSDKPath);
             this.tabSettings.Controls.Add(this.buttonEmulatorRun);
@@ -131,10 +122,6 @@
             this.tabSettings.Controls.Add(this.labelPath);
             this.tabSettings.Controls.Add(this.buttonChangePath);
             this.tabSettings.Controls.Add(this.labelChangePath);
-            this.tabSettings.Controls.Add(this.labelToken);
-            this.tabSettings.Controls.Add(this.textBoxToken);
-            this.tabSettings.Controls.Add(this.labelURL);
-            this.tabSettings.Controls.Add(this.textBoxURL);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -143,19 +130,17 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
-            // buttonStopAppium
+            // textBoxAppiumSendKeys
             // 
-            this.buttonStopAppium.Location = new System.Drawing.Point(360, 75);
-            this.buttonStopAppium.Name = "buttonStopAppium";
-            this.buttonStopAppium.Size = new System.Drawing.Size(75, 52);
-            this.buttonStopAppium.TabIndex = 39;
-            this.buttonStopAppium.Text = "stop appium";
-            this.buttonStopAppium.UseVisualStyleBackColor = true;
-            this.buttonStopAppium.Click += new System.EventHandler(this.buttonStopAppium_Click);
+            this.textBoxAppiumSendKeys.Location = new System.Drawing.Point(441, 325);
+            this.textBoxAppiumSendKeys.Name = "textBoxAppiumSendKeys";
+            this.textBoxAppiumSendKeys.Size = new System.Drawing.Size(248, 96);
+            this.textBoxAppiumSendKeys.TabIndex = 40;
+            this.textBoxAppiumSendKeys.Text = "";
             // 
             // buttonGetActivity
             // 
-            this.buttonGetActivity.Location = new System.Drawing.Point(695, 190);
+            this.buttonGetActivity.Location = new System.Drawing.Point(695, 259);
             this.buttonGetActivity.Name = "buttonGetActivity";
             this.buttonGetActivity.Size = new System.Drawing.Size(75, 23);
             this.buttonGetActivity.TabIndex = 38;
@@ -182,9 +167,9 @@
             // 
             // buttonAppiumContacts
             // 
-            this.buttonAppiumContacts.Location = new System.Drawing.Point(628, 104);
+            this.buttonAppiumContacts.Location = new System.Drawing.Point(547, 130);
             this.buttonAppiumContacts.Name = "buttonAppiumContacts";
-            this.buttonAppiumContacts.Size = new System.Drawing.Size(142, 23);
+            this.buttonAppiumContacts.Size = new System.Drawing.Size(100, 23);
             this.buttonAppiumContacts.TabIndex = 35;
             this.buttonAppiumContacts.Text = "appium contacts";
             this.buttonAppiumContacts.UseVisualStyleBackColor = true;
@@ -192,7 +177,7 @@
             // 
             // buttonGenerateVcard
             // 
-            this.buttonGenerateVcard.Location = new System.Drawing.Point(441, 75);
+            this.buttonGenerateVcard.Location = new System.Drawing.Point(441, 88);
             this.buttonGenerateVcard.Name = "buttonGenerateVcard";
             this.buttonGenerateVcard.Size = new System.Drawing.Size(100, 23);
             this.buttonGenerateVcard.TabIndex = 34;
@@ -202,9 +187,9 @@
             // 
             // buttonSendVcard
             // 
-            this.buttonSendVcard.Location = new System.Drawing.Point(441, 104);
+            this.buttonSendVcard.Location = new System.Drawing.Point(547, 88);
             this.buttonSendVcard.Name = "buttonSendVcard";
-            this.buttonSendVcard.Size = new System.Drawing.Size(75, 23);
+            this.buttonSendVcard.Size = new System.Drawing.Size(100, 23);
             this.buttonSendVcard.TabIndex = 33;
             this.buttonSendVcard.Text = "send vcard";
             this.buttonSendVcard.UseVisualStyleBackColor = true;
@@ -213,14 +198,14 @@
             // labelActivity
             // 
             this.labelActivity.AutoSize = true;
-            this.labelActivity.Location = new System.Drawing.Point(438, 209);
+            this.labelActivity.Location = new System.Drawing.Point(438, 278);
             this.labelActivity.Name = "labelActivity";
             this.labelActivity.Size = new System.Drawing.Size(0, 13);
             this.labelActivity.TabIndex = 31;
             // 
             // buttonGetPhone
             // 
-            this.buttonGetPhone.Location = new System.Drawing.Point(598, 133);
+            this.buttonGetPhone.Location = new System.Drawing.Point(598, 169);
             this.buttonGetPhone.Name = "buttonGetPhone";
             this.buttonGetPhone.Size = new System.Drawing.Size(91, 23);
             this.buttonGetPhone.TabIndex = 29;
@@ -230,28 +215,28 @@
             // 
             // textBoxCode
             // 
-            this.textBoxCode.Location = new System.Drawing.Point(441, 164);
+            this.textBoxCode.Location = new System.Drawing.Point(441, 200);
             this.textBoxCode.Name = "textBoxCode";
             this.textBoxCode.Size = new System.Drawing.Size(248, 20);
             this.textBoxCode.TabIndex = 28;
             // 
             // textBoxCC
             // 
-            this.textBoxCC.Location = new System.Drawing.Point(441, 135);
+            this.textBoxCC.Location = new System.Drawing.Point(441, 171);
             this.textBoxCC.Name = "textBoxCC";
             this.textBoxCC.Size = new System.Drawing.Size(39, 20);
             this.textBoxCC.TabIndex = 27;
             // 
             // textBoxPhone
             // 
-            this.textBoxPhone.Location = new System.Drawing.Point(486, 135);
+            this.textBoxPhone.Location = new System.Drawing.Point(486, 171);
             this.textBoxPhone.Name = "textBoxPhone";
             this.textBoxPhone.Size = new System.Drawing.Size(106, 20);
             this.textBoxPhone.TabIndex = 26;
             // 
             // buttonVerifyCode
             // 
-            this.buttonVerifyCode.Location = new System.Drawing.Point(695, 161);
+            this.buttonVerifyCode.Location = new System.Drawing.Point(695, 197);
             this.buttonVerifyCode.Name = "buttonVerifyCode";
             this.buttonVerifyCode.Size = new System.Drawing.Size(75, 23);
             this.buttonVerifyCode.TabIndex = 25;
@@ -261,7 +246,7 @@
             // 
             // buttonRegistration
             // 
-            this.buttonRegistration.Location = new System.Drawing.Point(695, 132);
+            this.buttonRegistration.Location = new System.Drawing.Point(695, 168);
             this.buttonRegistration.Name = "buttonRegistration";
             this.buttonRegistration.Size = new System.Drawing.Size(75, 23);
             this.buttonRegistration.TabIndex = 24;
@@ -281,7 +266,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(695, 254);
+            this.buttonClear.Location = new System.Drawing.Point(695, 323);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(75, 23);
             this.buttonClear.TabIndex = 22;
@@ -299,20 +284,10 @@
             // comboBoxWhatsAppIds
             // 
             this.comboBoxWhatsAppIds.FormattingEnabled = true;
-            this.comboBoxWhatsAppIds.Location = new System.Drawing.Point(441, 227);
+            this.comboBoxWhatsAppIds.Location = new System.Drawing.Point(441, 296);
             this.comboBoxWhatsAppIds.Name = "comboBoxWhatsAppIds";
             this.comboBoxWhatsAppIds.Size = new System.Drawing.Size(248, 21);
             this.comboBoxWhatsAppIds.TabIndex = 20;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 347);
-            this.label2.Name = "label2";
-            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "chat api";
             // 
             // textBoxSDKPath
             // 
@@ -334,17 +309,17 @@
             // 
             // buttonEmulatorRun
             // 
-            this.buttonEmulatorRun.Location = new System.Drawing.Point(614, 12);
+            this.buttonEmulatorRun.Location = new System.Drawing.Point(614, 10);
             this.buttonEmulatorRun.Name = "buttonEmulatorRun";
             this.buttonEmulatorRun.Size = new System.Drawing.Size(75, 52);
             this.buttonEmulatorRun.TabIndex = 15;
-            this.buttonEmulatorRun.Text = "run auromation";
+            this.buttonEmulatorRun.Text = "Run automation";
             this.buttonEmulatorRun.UseVisualStyleBackColor = true;
             this.buttonEmulatorRun.Click += new System.EventHandler(this.buttonEmulatorRun_Click);
             // 
             // buttonAppiumSendText
             // 
-            this.buttonAppiumSendText.Location = new System.Drawing.Point(695, 283);
+            this.buttonAppiumSendText.Location = new System.Drawing.Point(695, 352);
             this.buttonAppiumSendText.Name = "buttonAppiumSendText";
             this.buttonAppiumSendText.Size = new System.Drawing.Size(75, 23);
             this.buttonAppiumSendText.TabIndex = 14;
@@ -354,7 +329,7 @@
             // 
             // buttonAppiumClick
             // 
-            this.buttonAppiumClick.Location = new System.Drawing.Point(695, 225);
+            this.buttonAppiumClick.Location = new System.Drawing.Point(695, 294);
             this.buttonAppiumClick.Name = "buttonAppiumClick";
             this.buttonAppiumClick.Size = new System.Drawing.Size(75, 23);
             this.buttonAppiumClick.TabIndex = 12;
@@ -364,9 +339,9 @@
             // 
             // buttonAppiumRun
             // 
-            this.buttonAppiumRun.Location = new System.Drawing.Point(628, 75);
+            this.buttonAppiumRun.Location = new System.Drawing.Point(441, 130);
             this.buttonAppiumRun.Name = "buttonAppiumRun";
-            this.buttonAppiumRun.Size = new System.Drawing.Size(142, 23);
+            this.buttonAppiumRun.Size = new System.Drawing.Size(100, 23);
             this.buttonAppiumRun.TabIndex = 11;
             this.buttonAppiumRun.Text = "appium whatsapp";
             this.buttonAppiumRun.UseVisualStyleBackColor = true;
@@ -384,7 +359,7 @@
             // buttonChangeAndSaveSettings
             // 
             this.buttonChangeAndSaveSettings.Enabled = false;
-            this.buttonChangeAndSaveSettings.Location = new System.Drawing.Point(9, 99);
+            this.buttonChangeAndSaveSettings.Location = new System.Drawing.Point(9, 90);
             this.buttonChangeAndSaveSettings.Name = "buttonChangeAndSaveSettings";
             this.buttonChangeAndSaveSettings.Size = new System.Drawing.Size(315, 23);
             this.buttonChangeAndSaveSettings.TabIndex = 9;
@@ -394,9 +369,9 @@
             // 
             // textBoxPath
             // 
-            this.textBoxPath.Location = new System.Drawing.Point(50, 33);
+            this.textBoxPath.Location = new System.Drawing.Point(113, 33);
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(274, 20);
+            this.textBoxPath.Size = new System.Drawing.Size(211, 20);
             this.textBoxPath.TabIndex = 8;
             this.textBoxPath.TextChanged += new System.EventHandler(this.textBoxPath_TextChanged);
             // 
@@ -406,9 +381,9 @@
             this.labelPath.Location = new System.Drawing.Point(6, 36);
             this.labelPath.Name = "labelPath";
             this.labelPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelPath.Size = new System.Drawing.Size(35, 13);
+            this.labelPath.Size = new System.Drawing.Size(100, 13);
             this.labelPath.TabIndex = 7;
-            this.labelPath.Text = "Path: ";
+            this.labelPath.Text = "Phone bases Path: ";
             // 
             // buttonChangePath
             // 
@@ -430,43 +405,6 @@
             this.labelChangePath.TabIndex = 5;
             this.labelChangePath.Text = "Change path to phone bases:";
             // 
-            // labelToken
-            // 
-            this.labelToken.AutoSize = true;
-            this.labelToken.Location = new System.Drawing.Point(3, 404);
-            this.labelToken.Name = "labelToken";
-            this.labelToken.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelToken.Size = new System.Drawing.Size(41, 13);
-            this.labelToken.TabIndex = 3;
-            this.labelToken.Text = "Token:";
-            // 
-            // textBoxToken
-            // 
-            this.textBoxToken.Location = new System.Drawing.Point(50, 401);
-            this.textBoxToken.Name = "textBoxToken";
-            this.textBoxToken.Size = new System.Drawing.Size(274, 20);
-            this.textBoxToken.TabIndex = 2;
-            this.textBoxToken.Text = "\r\n\r\n\r\n\r\n\r\n\r\n";
-            this.textBoxToken.TextChanged += new System.EventHandler(this.textBoxToken_TextChanged);
-            // 
-            // labelURL
-            // 
-            this.labelURL.AutoSize = true;
-            this.labelURL.Location = new System.Drawing.Point(3, 378);
-            this.labelURL.Name = "labelURL";
-            this.labelURL.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelURL.Size = new System.Drawing.Size(32, 13);
-            this.labelURL.TabIndex = 1;
-            this.labelURL.Text = "URL:";
-            // 
-            // textBoxURL
-            // 
-            this.textBoxURL.Location = new System.Drawing.Point(50, 375);
-            this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(274, 20);
-            this.textBoxURL.TabIndex = 0;
-            this.textBoxURL.TextChanged += new System.EventHandler(this.textBoxURL_TextChanged);
-            // 
             // tabMessages
             // 
             this.tabMessages.Controls.Add(this.buttontTest);
@@ -478,7 +416,6 @@
             this.tabMessages.Controls.Add(this.richTextBoxMessage);
             this.tabMessages.Controls.Add(this.listBoxSelectedPhoneBases);
             this.tabMessages.Controls.Add(this.listBoxPhoneBases);
-            this.tabMessages.Controls.Add(this.buttonSendMessages);
             this.tabMessages.Location = new System.Drawing.Point(4, 22);
             this.tabMessages.Name = "tabMessages";
             this.tabMessages.Padding = new System.Windows.Forms.Padding(3);
@@ -489,7 +426,7 @@
             // 
             // buttontTest
             // 
-            this.buttontTest.Location = new System.Drawing.Point(471, 140);
+            this.buttontTest.Location = new System.Drawing.Point(471, 114);
             this.buttontTest.Name = "buttontTest";
             this.buttontTest.Size = new System.Drawing.Size(303, 23);
             this.buttontTest.TabIndex = 13;
@@ -567,16 +504,6 @@
             this.listBoxPhoneBases.TabIndex = 2;
             this.listBoxPhoneBases.DoubleClick += new System.EventHandler(this.listBoxPhoneBases_DoubleClick);
             // 
-            // buttonSendMessages
-            // 
-            this.buttonSendMessages.Location = new System.Drawing.Point(471, 114);
-            this.buttonSendMessages.Name = "buttonSendMessages";
-            this.buttonSendMessages.Size = new System.Drawing.Size(303, 23);
-            this.buttonSendMessages.TabIndex = 0;
-            this.buttonSendMessages.Text = "Send message";
-            this.buttonSendMessages.UseVisualStyleBackColor = true;
-            this.buttonSendMessages.Click += new System.EventHandler(this.buttonTest_Click);
-            // 
             // checkActivity
             // 
             this.checkActivity.Interval = 1000;
@@ -585,14 +512,6 @@
             // timerGetCode
             // 
             this.timerGetCode.Tick += new System.EventHandler(this.timerGetCode_Tick);
-            // 
-            // textBoxAppiumSendKeys
-            // 
-            this.textBoxAppiumSendKeys.Location = new System.Drawing.Point(441, 256);
-            this.textBoxAppiumSendKeys.Name = "textBoxAppiumSendKeys";
-            this.textBoxAppiumSendKeys.Size = new System.Drawing.Size(248, 96);
-            this.textBoxAppiumSendKeys.TabIndex = 40;
-            this.textBoxAppiumSendKeys.Text = "";
             // 
             // WhatsAppSpammer
             // 
@@ -621,7 +540,6 @@
         private System.Windows.Forms.Button buttonChangePath;
         private System.Windows.Forms.Label labelPath;
         private System.Windows.Forms.TextBox textBoxPath;
-        private System.Windows.Forms.Button buttonSendMessages;
         private System.Windows.Forms.ListBox listBoxPhoneBases;
         private System.Windows.Forms.ListBox listBoxSelectedPhoneBases;
         private System.Windows.Forms.RichTextBox richTextBoxMessage;
@@ -637,13 +555,8 @@
         private System.Windows.Forms.ComboBox comboBoxAppium;
         private System.Windows.Forms.Button buttonAppiumSendText;
         private System.Windows.Forms.Button buttonEmulatorRun;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxSDKPath;
         private System.Windows.Forms.Label labelSDKPath;
-        private System.Windows.Forms.Label labelToken;
-        private System.Windows.Forms.TextBox textBoxToken;
-        private System.Windows.Forms.Label labelURL;
-        private System.Windows.Forms.TextBox textBoxURL;
         private System.Windows.Forms.ComboBox comboBoxWhatsAppIds;
         private System.Windows.Forms.TextBox textBoxProxy;
         private System.Windows.Forms.Button buttonClear;
@@ -663,7 +576,6 @@
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Button buttonEmulator;
         private System.Windows.Forms.Button buttonGetActivity;
-        private System.Windows.Forms.Button buttonStopAppium;
         private System.Windows.Forms.RichTextBox textBoxAppiumSendKeys;
     }
 }

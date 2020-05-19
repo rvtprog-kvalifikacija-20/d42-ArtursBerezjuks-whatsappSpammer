@@ -6,29 +6,20 @@ using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
 {
-    class Registrator5SIM
+    class Registrator5SIM : SmsRegistrator
     {
-
-        
-        public static string BaseUrl = "http://api1.5sim.net/stubs/handler_api.php";
-        public string ApiKey { get; set; }
-        public string Referal { get; set; }
-        public string Country { get; set; }
         /// <summary>
         /// ID in sms-activate and phone number
         /// </summary>
         public Dictionary<string, string> activationPhones;
 
-        public Registrator5SIM(string apiKey, string referal, string counrty)
+        public Registrator5SIM(string apiKey, string referal, string counrty) : base(apiKey, referal, counrty)
         {
-            
-            ApiKey = apiKey;
-            Referal = referal;
-            Country = counrty;
             activationPhones = new Dictionary<string, string>();
+            BaseUrl = "http://api1.5sim.net/stubs/handler_api.php";
         }
 
-        public async Task<string> GetNumber()
+        public override async Task<string> GetNumber()
         {
             string request = BaseUrl+"?api_key=a13163e0458348e4b47f62bf8f440350&action=getNumber&country="+Country+"&service=wa&count=1";
             string response = await ApiRequest.GetRequestAsync(request);
@@ -45,7 +36,7 @@ namespace WhatsAppSpammer
             }
            
         }
-        public async Task<string> GetCode(string phone)
+        public override async Task<string> GetCode(string phone)
         {
             string request = BaseUrl + "?api_key=a13163e0458348e4b47f62bf8f440350&action=getStatus&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             string response = await ApiRequest.GetRequestAsync(request);
@@ -59,7 +50,7 @@ namespace WhatsAppSpammer
                 throw new Exception(response);
             }
         }
-        public async void PhoneReady(string phone)
+        public override async void PhoneReady(string phone)
         {
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=setStatus&status=1&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             string response = await ApiRequest.GetRequestAsync(request);
@@ -73,7 +64,7 @@ namespace WhatsAppSpammer
                 throw new Exception(response);
             }
         }
-        public async void setStatus(string phone,string statusCode)
+        public override async void SetStatus(string phone,string statusCode)
         {
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=setStatus&status="+statusCode+"&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             await ApiRequest.GetRequestAsync(request);

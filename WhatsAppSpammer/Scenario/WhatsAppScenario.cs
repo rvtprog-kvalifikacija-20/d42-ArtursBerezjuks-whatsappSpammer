@@ -12,6 +12,8 @@ namespace WhatsAppSpammer
     {
         public static async Task<bool> Registration(AppiumDevice ap, string phone, string cc)
         {
+
+            Logger.log("Inputing number");
             Random random = new Random();
             var el1 =  ap.GetElementByID("com.whatsapp:id/eula_accept");
             await Task.Delay(random.Next(1000, 2000));
@@ -39,6 +41,7 @@ namespace WhatsAppSpammer
                     if (message.Text.Contains("banned"))
                     {
                         banned = true;
+                        Logger.log("Number " + phone + " banned");
                         break;
                     }
                     
@@ -51,28 +54,30 @@ namespace WhatsAppSpammer
                     await Task.Delay(10000);
                 }           
             }
+            Logger.log("Waiting for code");
             return banned;
         }
         public static void VerifyCode(AppiumDevice ap, string code)
         {
+            Logger.log("Recived code: " + code);
             var el6 = ap.GetElementByID("com.whatsapp:id/verify_sms_code_input");
-            el6.SendKeys(code);
-            
+            el6.SendKeys(code);     
         }
         public static void WriteName(AppiumDevice ap, string name)
         {
 
+            Logger.log("Writing name " + name);
             var el1 = ap.GetElementByID("com.whatsapp:id/registration_name");
             el1.SendKeys(name);
             var el2 = ap.GetElementByID("com.whatsapp:id/register_name_accept");
             el2.Click();
             var el3 = ap.GetElementByID("com.whatsapp:id/instruction_badge");
             el3.Click();
-            var el4 = ap.GetElementByAccessibilityID("New chat");
-            el4.Click();
         }
         public static async void WriteMessage(AppiumDevice ap, string number,string text)
         {
+
+            Logger.log("New message to: " + number) ;
             int iterations = 0;
             while (iterations < 20)
             {
@@ -139,7 +144,8 @@ namespace WhatsAppSpammer
                 {
                     var el22 = ap.GetElementByAccessibilityID("Send");
                     el22.Click();
-        
+
+                    Logger.log("Message sent");
                     break;
                 }
                 catch

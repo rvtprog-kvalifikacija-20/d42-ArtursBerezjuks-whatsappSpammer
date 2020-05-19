@@ -27,17 +27,7 @@ namespace WhatsAppSpammer
         public static string WhatsAppActivity_Home = "com.whatsapp.HomeActivity"; 
         public static string WhatsAppAcceptEulaId= "com.whatsapp:id/eula_accept";
         public static string WhatsAppAcceptEulaXpath= "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.Button";
-        public static string WhatsAppActivity3 = "";
-        public static string WhatsAppActivity4 = "";
-        
-        // new List<string>() { ".activities.PeopleActivity"});
 
-        //registration
-        //com.whatsapp:id/eula_accept 
-        //com.whatsapp:id/registration_phone
-        //com.whatsapp:id/registration_submit
-        //com.whatsapp:id/registration_cc
-        //	android:id/button1
-        //com.whatsapp:id/verify_sms_code_input
+        
     }
 }

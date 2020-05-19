@@ -237,17 +237,18 @@
     <Compile Include="DeviceForm.Designer.cs">
       <DependentUpon>DeviceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registrator5SIM.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="SmsRegistrator\SmsRegistrator.cs" />
+    <Compile Include="SmsRegistrator\Registrator5SIM.cs" />
     <Compile Include="Scenario\ContactsScenario.cs" />
     <Compile Include="Device.cs" />
-    <Compile Include="Dictionary.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="MessageSender.cs" />
     <Compile Include="NumberBase.cs" />
     <Compile Include="ServerResponse.cs" />
     <Compile Include="ApiRequest.cs" />
-    <Compile Include="SmsActivate.cs" />
-    <Compile Include="WhatsAppScenario.cs" />
+    <Compile Include="SmsRegistrator\SmsActivate.cs" />
+    <Compile Include="Scenario\WhatsAppScenario.cs" />
     <Compile Include="WhatsAppSpammer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,6 +282,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

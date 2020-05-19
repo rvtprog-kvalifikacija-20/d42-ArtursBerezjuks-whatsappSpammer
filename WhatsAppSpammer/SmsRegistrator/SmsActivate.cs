@@ -6,54 +6,37 @@ using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
 {
-    public  class SmsActivate 
+    public class SmsActivate : SmsRegistrator
     {
-        public static string BaseUrl = "https://sms-activate.ru/stubs/handler_api.php";
-        public  string ApiKey { get; set; }
-        public string Referal { get; set; }
-        public string Country { get; set; }
         /// <summary>
         /// ID in sms-activate and phone number
         /// </summary>
         public Dictionary<string, string> activationPhones;
-        public SmsActivate(string apiKey, string referal,string counrty)
+
+        public  SmsActivate(string apiKey, string referal,string counrty) : base(apiKey, referal, counrty)
         {
-            ApiKey = apiKey;
-            Referal = referal;
-            Country = counrty;
+            BaseUrl = "https://sms-activate.ru/stubs/handler_api.php";
             activationPhones = new Dictionary<string, string>();
         }
-        public async Task<string> GetNumber()
+        public override async Task<string> GetNumber()
         {
-
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=getNumber&service=wa&ref=" + Referal + "&country=" + Country;
             string response = await ApiRequest.GetRequestAsync(request);
             string[] statusIdPhone = response.Split(':');
-            switch (statusIdPhone[0])
+
+            if (statusIdPhone[0].ToString().Contains("ACCESS_NUMBER"))
             {
-                case "NO_NUMBERS":
-                    throw new Exception("No numbers");
-                case "NO_BALANCE":
-                    throw new Exception("No balance");
-                case "BAD_ACTION":
-                    throw new Exception("BAD_ACTION");
-                case "BAD_SERVICE":
-                    throw new Exception("BAD_SERVICE");
-                case "BAD_KEY":
-                    throw new Exception("BAD_KEY");
-                case "ERROR_SQL":
-                    throw new Exception("ERROR_SQL");
-                case "BANNED":
-                    throw new Exception("BANNED");
-                case "ACCESS_NUMBER":
-                    activationPhones.Add(statusIdPhone[1], statusIdPhone[2]);
-                    return statusIdPhone[2];
-                    break;
-                default:
-                    throw new Exception("Unexpected server respose: "+response);
+                activationPhones.Add(statusIdPhone[1], statusIdPhone[2]);
+                return statusIdPhone[2];
             }
+            else
+            {
+                throw new Exception(response);
+            }
+
         }
-        public async void PhoneReady(string phone)
+
+        public override async void PhoneReady(string phone)
         {
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=setStatus&status=1&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             string response = await ApiRequest.GetRequestAsync(request);
@@ -67,7 +50,7 @@ namespace WhatsAppSpammer
                 throw new Exception(response);
             }
         }
-        public async Task<string> GetCode(string phone)
+        public override async Task<string> GetCode(string phone)
         {
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=getStatus&id=" + activationPhones.FirstOrDefault(i => i.Value==phone).Key;
             string response = await ApiRequest.GetRequestAsync(request);
@@ -84,6 +67,10 @@ namespace WhatsAppSpammer
             {
                 throw new Exception(response);
             }
+        }
+        public override async void SetStatus(string phone, string statusCode)
+        {
+            /* not needeed */
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +22,7 @@ namespace WhatsAppSpammer
                 procStartInfo.RedirectStandardError = true;
                 procStartInfo.RedirectStandardInput = true;
                 procStartInfo.UseShellExecute = false;
-                
+
                 // Do not create the black window.
                 procStartInfo.CreateNoWindow = true;
                 // Now we create a process, assign its ProcessStartInfo and start it
@@ -33,13 +31,13 @@ namespace WhatsAppSpammer
                 //proc.OutputDataReceived += (s, e) => {result += e.Data; };
                 //proc.ErrorDataReceived += (s, e) => { result += e.Data; };
                 proc.Start();
-                
+
                 //proc.StandardInput.WriteLine(command);
 
                 //proc.BeginOutputReadLine();
                 //proc.BeginErrorReadLine();
                 // Get the output into a string
-                
+
                 //proc.WaitForExit();
                 result += proc.StandardOutput.ReadToEnd();
                 // Display the command output.
@@ -107,9 +105,9 @@ namespace WhatsAppSpammer
                 foreach (var command in commands)
                 {
                     proc.StandardInput.WriteLine(command);
-                    
+
                 }
-                
+
 
                 proc.WaitForExit();
                 //result += proc.StandardOutput.ReadToEnd();
@@ -143,7 +141,7 @@ namespace WhatsAppSpammer
                 System.Diagnostics.Process proc = new System.Diagnostics.Process();
                 proc.StartInfo = procStartInfo;
                 proc.Start();
-               
+
             }
             catch (Exception objException)
             {
