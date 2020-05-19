@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Appium.Android;
+﻿using Castle.Core.Internal;
+using OpenQA.Selenium.Appium.Android;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,195 @@ namespace WhatsAppSpammer
 { 
     public static class WhatsAppScenario
     {
+        public static async void Registration(
+            string emulatorImageName,
+            string proxy,
+            AbstractSmsRegistrator smsRegistrator
+        )
+        {
+            bool banned = false;
+            int iterations = 0;
+            AppiumDevice appium;
+            string command = "emulator @" + emulatorImageName;
+            if (!proxy.IsNullOrEmpty())
+            {
+                command += " -http-proxy " + proxy;
+                System.IO.File.AppendAllText("usedproxy.txt", proxy + "\n");
+
+            }
+            command += " -wipe-data -no-snapshot-load";
+
+            Logger.log("Emulator starting");
+            CommandExecutor.ExecuteCommandAsync(command);
+            await Task.Delay(5000);
+
+            /*Open contacts*/
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+
+                    Logger.log("Running Contacts app");
+                    appium = new AppiumDevice(Apps.Contacts,
+                        Apps.ContatsActivity_Main,
+                        new Device(emulatorImageName)
+                    );
+                    SendVCard();
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(1000);
+                }
+            }
+
+            /*Import Contacts*/
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+
+                    Logger.log("Importing contacts");
+                    ContactsScenario.ImportContacts(appium);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(500);
+                }
+            }
+
+            /*Get number to activate*/
+            string number = "";
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    number = await smsRegistrator.GetNumber();
+                    Logger.log("Recived number: " + number);
+                    number = number.Remove(0, 1);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(2000);
+                }
+            }
+
+            Random random = new Random();
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    Logger.log("Registration started");
+                    appium = new AppiumDevice(Apps.WhatsApp,
+                            Apps.WhatsAppActivity_Eula,
+                            new Device(comboBoxAppium.Text));
+                    banned = await WhatsAppScenario.Registration(appium, number, "7");
+                    if (banned)
+                    {
+                        Logger.log("Number is banned");
+                        appium.CloseApp();
+                        smsRegistrator.SetStatus("7" + number, "10");
+                        smsRegistrator.SetStatus("7" + number, "-1");
+                        iterations = 0;
+                        while (iterations < 60)
+                        {
+                            try
+                            {
+                                number = await smsRegistrator.GetNumber();
+                                Logger.log("Waiting for code");
+                                number = number.Remove(0, 1);
+                                break;
+                            }
+                            catch
+                            {
+                                iterations++;
+                                await Task.Delay(5000);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(2000);
+                }
+            }
+            try
+            {
+                smsRegistrator.PhoneReady("7" + number);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "SMS ACTIVATE");
+            }
+
+            iterations = 0;
+            while (iterations < 1200)
+            {
+                try
+                {
+                    string code = await smsRegistrator.GetCode("7" + number);
+                    if (code != "STATUS_WAIT_CODE")
+                    {
+                        WhatsAppScenario.VerifyCode(appium, code);
+                        break;
+                    }
+                    else
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(1000);
+                }
+            }
+
+            smsRegistrator.SetStatus("7" + number, "6");
+
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    WhatsAppScenario.WriteName(appium, textBoxName.Text);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(500);
+                }
+            }
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
+            player.Play();
+        }
+        public static async void SendVCard()
+        {
+            string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
+            CommandExecutor.ExecuteCommandAsync(command);
+            command = " push " + Properties.Settings.Default.PathToDirectory + "/vcard.vcf /sdcard";
+            await CommandExecutor.AdbExecutor(command);
+        }
+
         public static async Task<bool> Registration(AppiumDevice ap, string phone, string cc)
         {
 

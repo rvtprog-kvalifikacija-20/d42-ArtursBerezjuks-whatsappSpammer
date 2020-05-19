@@ -24,7 +24,7 @@ namespace WhatsAppSpammer
         private MessageSender ms { get; set; }
         private AppiumDevice appium;
         private bool settingsChanged;
-        private SmsRegistrator smsRegistrator;
+        private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
         CancellationTokenSource automatizationTokenSource;
         private int Count { get; set; }
@@ -367,7 +367,7 @@ namespace WhatsAppSpammer
                     }
 
                 }
-                catch (Exception ex)
+                catch
                 {
                     iterations++;
                     await Task.Delay(2000);
@@ -391,7 +391,6 @@ namespace WhatsAppSpammer
                     string code = await smsRegistrator.GetCode("7" + number);
                     if (code != "STATUS_WAIT_CODE")
                     {
-
                         WhatsAppScenario.VerifyCode(appium, code);
                         break;
                     }
@@ -400,12 +399,10 @@ namespace WhatsAppSpammer
                         iterations++;
                         await Task.Delay(1000);
                     }
-
                 }
-                catch (Exception ex)
+                catch
                 {
                     iterations++;
-
                     await Task.Delay(1000);
                 }
             }
@@ -423,18 +420,16 @@ namespace WhatsAppSpammer
                 catch
                 {
                     iterations++;
-                    await Task.Delay(2000);
+                    await Task.Delay(500);
                 }
             }
 
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
             player.Play();
-            // devices.Add(new Device(comboBoxAppium.Text));
-            // new DeviceForm(comboBoxAppium.Text, textBoxProxy.Text).Show();
         }
         private async void buttonEmulatorRun_Click(object sender, EventArgs e)
         {
-            Invoke(new Action(async () =>
+            Invoke( new Action(async () =>
             {
                 automatizationTokenSource = new CancellationTokenSource();
                 try
@@ -568,19 +563,16 @@ namespace WhatsAppSpammer
             return vcards;
         }
 
-        private async void buttonSendVcard_Click(object sender, EventArgs e)
+        private void buttonSendVcard_Click(object sender, EventArgs e)
         {
-            Invoke(new Action(() =>{
-                    SendVCard();
-                })
-            );
+            SendVCard();
         }
-        private void SendVCard()
+        private async void SendVCard()
         {
             string command = "cd " + textBoxSDKPath.Text + "/platform-tools";
             CommandExecutor.ExecuteCommandAsync(command);
             command = " push " + Properties.Settings.Default.PathToDirectory + "/vcard.vcf /sdcard";
-            CommandExecutor.AdbExecutor(command);
+            await CommandExecutor.AdbExecutor(command);
         }
 
         private async void timerGetCode_Tick(object sender, EventArgs e)

@@ -14,5 +14,8 @@
     <Setting Name="AutomationName" Type="System.String" Scope="User">
       <Value Profile="(Default)">UiAutomator1</Value>
     </Setting>
+    <Setting Name="PathToSDK" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:/Program Files (x86)/Android/android-sdk</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

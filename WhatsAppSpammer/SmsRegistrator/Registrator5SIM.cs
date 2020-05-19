@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
 {
-    class Registrator5SIM : SmsRegistrator
+    class Registrator5SIM : AbstractSmsRegistrator
     {
         /// <summary>
         /// ID in sms-activate and phone number

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
 {
-    public abstract class SmsRegistrator
+    public abstract class AbstractSmsRegistrator
     {
-        public SmsRegistrator(string apiKey, string referal, string counrty) {
+        public AbstractSmsRegistrator(string apiKey, string referal, string counrty) {
             ApiKey = apiKey;
             Referal = referal;
             Country = counrty;

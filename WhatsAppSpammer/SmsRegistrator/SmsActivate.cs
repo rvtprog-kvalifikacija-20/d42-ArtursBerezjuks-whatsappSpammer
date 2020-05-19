@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace WhatsAppSpammer
 {
-    public class SmsActivate : SmsRegistrator
+    public class SmsActivate : AbstractSmsRegistrator
     {
         /// <summary>
         /// ID in sms-activate and phone number

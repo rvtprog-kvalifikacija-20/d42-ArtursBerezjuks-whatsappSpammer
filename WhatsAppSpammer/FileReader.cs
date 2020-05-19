@@ -48,14 +48,21 @@ namespace WhatsappSpammer
         } 
         public List<string> GetFilenames()
         {
-            string[] filenamesArr= Directory.GetFiles(Path, "*.txt");
-            List<string> filenames = new List<string>();
-            for (int i = 0; i < filenamesArr.Length; i++)
+            try
             {
-                string[] filename = filenamesArr[i].Split('\\');
-                filenames.Add(filename.Last());
+                string[] filenamesArr = Directory.GetFiles(Path, "*.txt");
+                List<string> filenames = new List<string>();
+                for (int i = 0; i < filenamesArr.Length; i++)
+                {
+                    string[] filename = filenamesArr[i].Split('\\');
+                    filenames.Add(filename.Last());
+                }
+                return filenames;
             }
-            return filenames;
+            catch
+            {
+                return new List<string>();
+            }
         }
     }
 }
