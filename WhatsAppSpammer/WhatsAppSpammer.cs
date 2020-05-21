@@ -16,6 +16,7 @@ using System.Management.Automation;
 using System.Threading;
 using MixERP.Net.VCards;
 using System.Configuration;
+using WhatsAppSpammer.SmsRegistrator;
 
 namespace WhatsAppSpammer
 {

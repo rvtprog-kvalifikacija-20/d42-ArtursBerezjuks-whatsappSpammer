@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WhatsAppSpammer
+namespace WhatsAppSpammer.SmsRegistrator
 {
     class Registrator5SIM : AbstractSmsRegistrator
     {
