@@ -4,15 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Infrastructure;
 namespace WhatsAppSpammer
 {
-    class ActivationNumberContext : DbContext
-    { 
-        public DbSet<ActivationNumber> ActivationNumbers { get; set; }
-    }
     class ActivationNumber
     {
         public ActivationNumber(string number, string countryCode, DateTime createdDateTime, double price, string smsRegistrator)
@@ -24,9 +18,8 @@ namespace WhatsAppSpammer
             SmsRegistrator = smsRegistrator;
         }
 
-        public ActivationNumber(int id, string number, string countryCode, string activationCode, int messagesSent, DateTime createdDateTime, DateTime bannedDateTime, double price, string smsRegistrator)
+        public ActivationNumber(string number, string countryCode, string activationCode, int messagesSent, DateTime createdDateTime, DateTime bannedDateTime, double price, string smsRegistrator)
         {
-            Id = id;
             Number = number;
             CountryCode = countryCode;
             ActivationCode = activationCode;
@@ -36,8 +29,6 @@ namespace WhatsAppSpammer
             Price = price;
             SmsRegistrator = smsRegistrator;
         }
-
-        public int Id { get; set; }
 
         public string Number { get; set; }
 
