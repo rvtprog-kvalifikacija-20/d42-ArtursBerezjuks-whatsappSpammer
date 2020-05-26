@@ -28,6 +28,7 @@ namespace WhatsAppSpammer
 
             int y = 10;
 
+            Properties.Settings.Default.Upgrade();
             foreach (SettingsProperty property in Properties.Settings.Default.Properties)
             {
                 Label label = new Label();
@@ -38,7 +39,7 @@ namespace WhatsAppSpammer
 
                 textBox.Location = new Point(100, y);
                 textBox.Size = new Size(500, 20);
-                textBox.Text = property.DefaultValue.ToString();
+                textBox.Text = Properties.Settings.Default[property.Name].ToString();
 
                 settingForm.Controls.Add(label);
                 settingForm.Controls.Add(textBox);
@@ -70,13 +71,12 @@ namespace WhatsAppSpammer
             }
             
                 
-            DialogResult dialogResult = MessageBox.Show("To apply settings you need to restart program! Do you want to restart program", "Some Title", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Save settings and continue?", "Save", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.Save();
                 Properties.Settings.Default.Upgrade();
-                System.Windows.Forms.Application.Exit();
+                settingForm.Close();
             }
         }
     }

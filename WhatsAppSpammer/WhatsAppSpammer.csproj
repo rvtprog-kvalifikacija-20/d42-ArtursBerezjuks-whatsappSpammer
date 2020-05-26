@@ -328,6 +328,12 @@
       <DependentUpon>DeviceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="Migrations\202005261116296_ActivationNumbers.cs" />
+    <Compile Include="Migrations\202005261116296_ActivationNumbers.designer.cs">
+      <DependentUpon>202005261116296_ActivationNumbers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ObservableListSource.cs" />
     <Compile Include="SettingForm.cs" />
     <Compile Include="SmsRegistrator\ActivationNumber.cs" />
     <Compile Include="SmsRegistrator\AbstractSmsRegistrator.cs" />
@@ -350,8 +356,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="whatsappspammerDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>whatsappspammerDataSet.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="DeviceForm.resx">
       <DependentUpon>DeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005261116296_ActivationNumbers.resx">
+      <DependentUpon>202005261116296_ActivationNumbers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -376,6 +390,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="readme.md" />
+    <None Include="whatsappspammerDataSet.xsc">
+      <DependentUpon>whatsappspammerDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="whatsappspammerDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>whatsappspammerDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="whatsappspammerDataSet.xss">
+      <DependentUpon>whatsappspammerDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

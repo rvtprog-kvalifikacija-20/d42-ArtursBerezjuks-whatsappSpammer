@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace WhatsAppSpammer
 {
-    class ActivationNumber
+    public class ActivationNumber
     {
         public ActivationNumber(string number, string countryCode, DateTime createdDateTime, double price, string smsRegistrator)
         {
@@ -30,19 +30,20 @@ namespace WhatsAppSpammer
             SmsRegistrator = smsRegistrator;
         }
 
+        [System.ComponentModel.DataAnnotations.Key]
         public string Number { get; set; }
 
         public string CountryCode { get; set; }
 
         public string ActivationCode { get; set; }
 
-        public int MessagesSent { get; set; }
+        public int? MessagesSent { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
 
-        public DateTime BannedDateTime { get; set; }
+        public DateTime? BannedDateTime { get; set; }
 
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         public string SmsRegistrator { get; set; }
     }
