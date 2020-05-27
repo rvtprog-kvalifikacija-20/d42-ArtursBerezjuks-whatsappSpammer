@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Internal;
+using MixERP.Net.VCards.Processors;
 using OpenQA.Selenium.Appium.Android;
 using System;
 using System.Collections.Generic;
@@ -257,6 +258,8 @@ namespace WhatsAppSpammer
             var el3 = ap.GetElementByID("com.whatsapp:id/instruction_badge");
             el3.Click();
         }
+
+        //Old
         public static async void WriteMessage(AppiumDevice ap, string number,string text)
         {
 
@@ -339,6 +342,89 @@ namespace WhatsAppSpammer
             }
             ap.Back();
         }
+        public static async void WriteMessages(AppiumDevice ap, NumberBase.NumberBase numberBase)
+        {
+            Logger.log("NumberBase: " + numberBase.Message.Name);
+            foreach(var number in numberBase.PhoneNumbers)
+            {
+                int iterations = 0;
+                while (iterations < 20)
+                {
+                    try
+                    {
+                        var el17 = ap.GetElementByAccessibilityID("Search");
+                        el17.Click();
+                        break;
+                    }
+                    catch
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                iterations = 0;
+                while (iterations < 20)
+                {
+                    try
+                    {
+                        var el19 = ap.GetElementByID("com.whatsapp:id/search_src_text");
+                        el19.SendKeys(number.Number);
+                        break;
+                    }
+                    catch
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
 
+                iterations = 0;
+                while (iterations < 25)
+                {
+                    try
+                    {
+                        var el20 = ap.GetElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/androidx.viewpager.widget.ViewPager/android.widget.LinearLayout/android.widget.ListView/android.widget.RelativeLayout[1]");
+                        el20.Click();
+                        break;
+                    }
+                    catch
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                while (iterations < 20)
+                {
+                    try
+                    {
+                        var el21 = ap.GetElementByID("com.whatsapp:id/entry");
+                        el21.SendKeys(numberBase.Message.MessageText);
+                        break;
+                    }
+                    catch
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                while (iterations < 20)
+                {
+                    try
+                    {
+                        var el22 = ap.GetElementByAccessibilityID("Send");
+                        el22.Click();
+
+                        Logger.log("Message sent");
+                        break;
+                    }
+                    catch
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                ap.Back();
+            }
+        }
     }
 }

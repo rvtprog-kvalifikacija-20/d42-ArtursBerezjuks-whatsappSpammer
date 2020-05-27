@@ -320,7 +320,7 @@
     <Compile Include="DeviceController\AppiumDevice.cs" />
     <Compile Include="DeviceController\Apps.cs" />
     <Compile Include="CommandExecutor.cs" />
-    <Compile Include="DeviceController\DeviceRepository.cs" />
+    <Compile Include="DeviceController\DeviceController.cs" />
     <Compile Include="DeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -328,11 +328,11 @@
       <DependentUpon>DeviceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
-    <Compile Include="Migrations\202005261116296_ActivationNumbers.cs" />
-    <Compile Include="Migrations\202005261116296_ActivationNumbers.designer.cs">
-      <DependentUpon>202005261116296_ActivationNumbers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="NumberBase\Message.cs" />
+    <Compile Include="NumberBase\MessageContext.cs" />
+    <Compile Include="NumberBase\NumberBase.cs" />
+    <Compile Include="Numbers\PhoneNumber.cs" />
+    <Compile Include="Numbers\PhoneNumberContext.cs" />
     <Compile Include="ObservableListSource.cs" />
     <Compile Include="SettingForm.cs" />
     <Compile Include="SmsRegistrator\ActivationNumber.cs" />
@@ -363,9 +363,6 @@
     </Compile>
     <EmbeddedResource Include="DeviceForm.resx">
       <DependentUpon>DeviceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005261116296_ActivationNumbers.resx">
-      <DependentUpon>202005261116296_ActivationNumbers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

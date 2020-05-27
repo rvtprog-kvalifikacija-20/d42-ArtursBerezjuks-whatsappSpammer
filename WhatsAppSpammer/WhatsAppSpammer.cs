@@ -26,26 +26,13 @@ namespace WhatsAppSpammer
         private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
         private int Count { get; set; }
-        public bool SettingsChanged
-        {
-            get
-            {
-                return SettingsChanged;
-            }
-            set
-            {
-                settingsChanged = value;
-                buttonChangeAndSaveSettings.Enabled = value;
-            }
-        }
+
 
         
         public WhatsAppSpammer()
         {
             InitializeComponent();
             devices = new List<Device>();
-            textBoxPath.Text = Properties.Settings.Default.PathToDirectory;
-            SettingsChanged = false;
             string advs = CommandExecutor.ExecuteCommandSync("emulator -list-avds");
             string[] adv = advs.Split('\n');
             foreach (var item in adv)
@@ -77,118 +64,14 @@ namespace WhatsAppSpammer
                 Properties.Settings.Default.Token,
                 Properties.Settings.Default.PathToDirectory
             );
-            var numberBases = ms.GetNumberBasesInDirectory();
-            foreach (var item in numberBases)
-            {
-                listBoxPhoneBases.Items.Add(item);
-            }
-            var selectedNumberBases = ms.GetNumberBases();
-            foreach (var item in selectedNumberBases)
-            {
-                listBoxSelectedPhoneBases.Items.Add(item);
-            }
+
+
+
             Logger.initLogger();
             Logger.loggerForm.Show();
             
         }
 
-        private void buttonpath_Click(object sender, EventArgs e)
-        {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
-            {
-                dialog.ShowDialog();
-                textBoxPath.Text = dialog.SelectedPath;
-                ms.ChangeFileReaderPath(textBoxPath.Text);
-            }
-        }
-
-        private void textBoxURL_TextChanged(object sender, EventArgs e)
-        {
-            SettingsChanged = true;
-        }
-
-        private void textBoxToken_TextChanged(object sender, EventArgs e)
-        {
-            SettingsChanged = true;
-        }
-
-        private void textBoxPath_TextChanged(object sender, EventArgs e)
-        {
-            SettingsChanged = true;
-        }
-
-        private void changeAndSaveSettings()
-        {
-            Properties.Settings.Default.PathToDirectory = textBoxPath.Text;
-            ms.Url = Properties.Settings.Default.URL;
-            ms.Token = Properties.Settings.Default.Token;
-            ms.ChangeFileReaderPath(Properties.Settings.Default.PathToDirectory);
-            Properties.Settings.Default.Save();
-        }
-
-        private void listBoxPhoneBases_DoubleClick(object sender, EventArgs e)
-        {
-            int index = this.listBoxPhoneBases.SelectedIndex;
-            if (index >= 0)
-            {
-                string filename = this.listBoxPhoneBases.Text;
-                listBoxPhoneBases.Items.RemoveAt(index);
-                ms.AddNumberBase(filename);
-                listBoxSelectedPhoneBases.Items.Add(filename);
-            }
-        }
-
-        private void listBoxSelectedPhoneBases_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBoxSelectedPhoneBases_DoubleClick(object sender, EventArgs e)
-        {
-            int index = this.listBoxSelectedPhoneBases.SelectedIndex;
-            if (index >= 0)
-            {
-                string filename = this.listBoxSelectedPhoneBases.Text;
-                listBoxSelectedPhoneBases.Items.RemoveAt(index);
-                ms.RemoveNumberBase(filename);
-                listBoxPhoneBases.Items.Add(filename);
-            }
-        }
-
-        private void buttonChangeAndSaveSettings_Click(object sender, EventArgs e)
-        {
-            changeAndSaveSettings();
-            SettingsChanged = false;
-        }
-
-        private async void buttontTest_Click(object sender, EventArgs e)
-        {
-            Random r = new Random();
-            List<string> numbers = new List<string>();
-            var numberBases = ms.GetNumberBases();
-            foreach (var numberBase in numberBases.Values)
-            {
-                numbers = numbers.Concat(numberBase.Numbers).ToList();
-            }
-            foreach(var number in numbers)
-            {
-                int iterations = 0;
-                while (iterations < 60)
-                {
-                    try
-                    {
-                        WhatsAppScenario.WriteMessage(appium, number, richTextBoxMessage.Text);
-                        await Task.Delay(r.Next(10000, 20000));
-                        break;
-                    }
-                    catch
-                    {
-                        iterations++;
-                        await Task.Delay(5000);
-                    }
-                }          
-            }      
-        }
 
         [Obsolete]
         private async void buttonAppiumRun_Click(object sender, EventArgs e)
@@ -204,58 +87,28 @@ namespace WhatsAppSpammer
                         )
                     )
                 );
-                checkActivity.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void buttonAppiumClick_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                appium.GetElementByID(comboBoxWhatsAppIds.Text).Tap(1, 5);
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void buttonAppiumSendText_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                appium.GetElementByID(comboBoxWhatsAppIds.Text).SendKeys(textBoxAppiumSendKeys.Text);
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-        }
-
 
         public async void Automatization(string emulatorImageName) {
-            checkActivity.Enabled = true;
             bool banned = false;
-            // string command = "cd " + textBoxAppiumSendKeys.Text;
-            //CommandExecutor.ExecuteCommandAsync(command);
             int iterations = 0;
-            string command = "emulator @" + emulatorImageName ;
+            string command = "emulator @" + emulatorImageName;
+
             if (textBoxProxy.Text != "")
             {
                 command += " -http-proxy " + textBoxProxy.Text;
                 System.IO.File.AppendAllText("usedproxy.txt", textBoxProxy.Text + "\n");
-
             }
             command += " -wipe-data -no-snapshot-load";
 
             Logger.log("Emulator starting at proxy ");
             CommandExecutor.ExecuteCommandAsync(command);
+
             await Task.Delay(5000);
 
             /*Open contacts*/
@@ -295,7 +148,7 @@ namespace WhatsAppSpammer
                     iterations++;
                     await Task.Delay(500);
                 }
-            }       
+            }
 
             /*Get number to activate*/
             string number = "";
@@ -422,8 +275,8 @@ namespace WhatsAppSpammer
             {
                 try
                 {
-                    
-                    //Automatization(comboBoxAppium.Text, automatizationTokenSource);
+                    new AppiumDevice(textBox);
+                    Automatization(comboBoxAppium.Text);
                 }
                 catch (Exception ex)
                 {
@@ -431,18 +284,6 @@ namespace WhatsAppSpammer
                 }
             }));
 
-        }
-        private void buttonClear_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                appium.GetElementByID(comboBoxWhatsAppIds.Text).Clear();
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
         }
 
         private async void buttonGetProxy_Click(object sender, EventArgs e)
@@ -457,66 +298,8 @@ namespace WhatsAppSpammer
 
         }
 
-        private void buttonRegistration_Click(object sender, EventArgs e)
-        {
-            Invoke(new Action(() => WhatsAppScenario.Registration(appium, textBoxPhone.Text, textBoxCC.Text)));
-        }
+       
 
-        private void buttonVerifyCode_Click(object sender, EventArgs e)
-        {
-            Task.Run(() => WhatsAppScenario.VerifyCode(appium, textBoxCode.Text));
-        }
-
-        private async void buttonGetPhone_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string number = await smsRegistrator.GetNumber();
-                textBoxCC.Text = "7";
-                textBoxPhone.Text = number.Remove(0, 1);
-                timerGetCode.Enabled = true;
-                try
-                {
-                    smsRegistrator.PhoneReady(number);
-                }
-                catch (Exception ex)
-                {
-
-                    MessageBox.Show(ex.Message, "SMS ACTIVATE");
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SMS ACTIVATE");
-                MessageBox.Show(ex.StackTrace, "SMS ACTIVATE");
-            }
-            
-        }
-        
-        private async void buttonGetCode_Click(object sender, EventArgs e)
-        {
-
-            
-        }
-        private void checkActivity_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                string activity = appium.GetCurrentActivity();
-                labelActivity.Text = activity;
-                switch (activity)
-                {
-                    case "":
-
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                labelActivity.Text = ex.Message;
-            }
-        }
 
         private async void buttonGenerateVcard_Click(object sender, EventArgs e)
         {
@@ -558,30 +341,13 @@ namespace WhatsAppSpammer
         }
         private async void SendVCard()
         {
-            string command = "cd " + textBoxSDKPath.Text + "/platform-tools";
+            string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
             CommandExecutor.ExecuteCommandAsync(command);
             command = " push " + Properties.Settings.Default.PathToDirectory + "/vcard.vcf /sdcard";
             await CommandExecutor.AdbExecutor(command);
         }
 
-        private async void timerGetCode_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                string code = await smsRegistrator.GetCode(textBoxCC.Text + textBoxPhone.Text);
-                if (code != "STATUS_WAIT_CODE")
-                {
-                    textBoxCode.Text = code;
-                    timerGetCode.Enabled = false;
-                    WhatsAppScenario.VerifyCode(appium,code);
-                }
-                
-            }catch (Exception ex)
-            {
-                timerGetCode.Enabled = false;
-                MessageBox.Show(ex.Message, "SMS ACTIVATE");
-            }
-        }
+     
 
         [Obsolete]
         private void buttonAppiumContacts_Click(object sender, EventArgs e)
@@ -600,7 +366,6 @@ namespace WhatsAppSpammer
             Invoke(new Action(
                 () =>
                 {
-                    checkActivity.Enabled = true;
                     string command = "emulator @" + comboBoxAppium.Text;
                     if (textBoxProxy.Text != "")
                     {
@@ -616,11 +381,6 @@ namespace WhatsAppSpammer
             );
         }
 
-        private void buttonGetActivity_Click(object sender, EventArgs e)
-        {
-            Logger.log("Get activity",true);
-            labelActivity.Text = CommandExecutor.ExecuteCommandSync("adb shell dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
-        }
 
         private void buttonStopAppium_Click(object sender, EventArgs e)
         {

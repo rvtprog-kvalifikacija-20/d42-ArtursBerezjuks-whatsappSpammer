@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WhatsAppSpammer
+namespace WhatsAppSpammer.DeviceController
 {
-    class DeviceRepository
+    public class DeviceController
     {
+
     }
 }
