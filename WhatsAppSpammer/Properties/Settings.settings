@@ -23,6 +23,15 @@
     <Setting Name="ContactsApk" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\Android\android-sdk\platform-tools\com.kitkatandroid.contacts.com.apk</Value>
     </Setting>
+    <Setting Name="ApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0b14A211b582d99284d438434299fb71</Value>
+    </Setting>
+    <Setting Name="Referal" Type="System.String" Scope="User">
+      <Value Profile="(Default)">424401</Value>
+    </Setting>
+    <Setting Name="Country" Type="System.String" Scope="User">
+      <Value Profile="(Default)">russia</Value>
+    </Setting>
     <Setting Name="whatsappspammerConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;

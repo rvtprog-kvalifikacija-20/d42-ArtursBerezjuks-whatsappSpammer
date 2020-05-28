@@ -26,13 +26,15 @@ namespace WhatsAppSpammer
         private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
         private int Count { get; set; }
-
+        public List<DeviceController.DeviceController> DeviceControllers { get; set; }
 
         
         public WhatsAppSpammer()
         {
             InitializeComponent();
+            DeviceControllers = new List<DeviceController.DeviceController>();
             devices = new List<Device>();
+
             string advs = CommandExecutor.ExecuteCommandSync("emulator -list-avds");
             string[] adv = advs.Split('\n');
             foreach (var item in adv)
@@ -47,11 +49,12 @@ namespace WhatsAppSpammer
             //com.whatsapp:id/registration_cc
             //android:id/button1
             //com.whatsapp:id/verify_sms_code_input
-            string ApiKey = "0b14A211b582d99284d438434299fb71";
-            string Referal = "424401";
-            string Country = "russia"; // "2";kazakhstan
-            smsRegistrator = new SmsActivate(ApiKey, Referal, Country);
-            textBoxName.Text = "Nickname";
+
+
+            smsRegistrator = new SmsActivate(
+               Properties.Settings.Default["ApiKey"].ToString(),
+               Properties.Settings.Default["Referal"].ToString(),
+              Properties.Settings.Default["Country"].ToString());
 
             string response = ""; // ApiRequest.GetRequestSync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
             string[] adresses = response.Split('\n');
@@ -65,28 +68,23 @@ namespace WhatsAppSpammer
                 Properties.Settings.Default.PathToDirectory
             );
 
-
-
             Logger.initLogger();
-            Logger.loggerForm.Show();
+            //Logger.loggerForm.Show();
             
         }
 
 
         [Obsolete]
-        private async void buttonAppiumRun_Click(object sender, EventArgs e)
+        private  void buttonAppiumRun_Click(object sender, EventArgs e)
         {
             try
             {
-                Invoke(
-                    new Action( () => 
-                        appium = new AppiumDevice(
-                           Apps.WhatsApp,
-                           Apps.WhatsAppActivity_Home,
-                           new Device(comboBoxAppium.Text)
-                        )
-                    )
+                appium = new AppiumDevice(
+                   Apps.WhatsApp,
+                   Apps.WhatsAppActivity_Home,
+                   new Device(comboBoxAppium.Text)
                 );
+                    
             }
             catch (Exception ex)
             {
@@ -94,15 +92,15 @@ namespace WhatsAppSpammer
             }
         }
 
-        public async void Automatization(string emulatorImageName) {
+        public async void Automatization(string emulatorImageName, string proxy) {
             bool banned = false;
             int iterations = 0;
             string command = "emulator @" + emulatorImageName;
 
             if (textBoxProxy.Text != "")
             {
-                command += " -http-proxy " + textBoxProxy.Text;
-                System.IO.File.AppendAllText("usedproxy.txt", textBoxProxy.Text + "\n");
+                command += " -http-proxy " + proxy;
+                System.IO.File.AppendAllText("usedproxy.txt", proxy + "\n");
             }
             command += " -wipe-data -no-snapshot-load";
 
@@ -158,6 +156,7 @@ namespace WhatsAppSpammer
                 try
                 {
                     number = await smsRegistrator.GetNumber();
+
                     Logger.log("Recived number: " + number);
                     number = number.Remove(0, 1);
                     break;
@@ -269,21 +268,17 @@ namespace WhatsAppSpammer
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
             player.Play();
         }
-        private async void buttonEmulatorRun_Click(object sender, EventArgs e)
+        private void buttonEmulatorRun_Click(object sender, EventArgs e)
         {
-            Invoke( new Action(async () =>
+            try
             {
-                try
-                {
-                    new AppiumDevice(textBox);
-                    Automatization(comboBoxAppium.Text);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }));
-
+                DeviceControllers.Add(new DeviceController.DeviceController(comboBoxAppium.Text, textBoxProxy.Text));
+               // Automatization(comboBoxAppium.Text, textBoxProxy.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void buttonGetProxy_Click(object sender, EventArgs e)
@@ -366,21 +361,22 @@ namespace WhatsAppSpammer
             Invoke(new Action(
                 () =>
                 {
-                    string command = "emulator @" + comboBoxAppium.Text;
-                    if (textBoxProxy.Text != "")
-                    {
-                        command += " -http-proxy " + textBoxProxy.Text;
-                        System.IO.File.AppendAllText("usedproxy.txt", textBoxProxy.Text + '\n');
-
-                    }
-                    command += " -wipe-data -no-snapshot-load";
-
-                    CommandExecutor.ExecuteCommandAsync(command);
-
+                    RunEmulator(comboBoxAppium.Text, textBoxProxy.Text);
                 })
             );
         }
 
+        public void RunEmulator(string deviceName, string proxy)
+        {
+            string command = "emulator @" + deviceName;
+            if (proxy != "" && proxy != null)
+            {
+                command += " -http-proxy " + proxy;
+            }
+            command += " -wipe-data -no-snapshot-load";
+
+            CommandExecutor.ExecuteCommandAsync(command);
+        }
 
         private void buttonStopAppium_Click(object sender, EventArgs e)
         {
@@ -391,8 +387,6 @@ namespace WhatsAppSpammer
         {
             new SettingForm();
         }
-
-
     }
 }
 

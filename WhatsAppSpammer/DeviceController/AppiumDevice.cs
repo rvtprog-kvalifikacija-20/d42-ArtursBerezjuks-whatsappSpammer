@@ -41,6 +41,29 @@ namespace WhatsAppSpammer
             driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), capabilities);
             //driver.StartActivity(app.AppPackage, appActivity);
         }
+        public AppiumDevice(App app, string appActivity, Device device, string port)
+        {
+            this.Device = device;
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+
+            capabilities.SetCapability(MobileCapabilityType.PlatformName, device.Platform);
+            capabilities.SetCapability(MobileCapabilityType.PlatformVersion, device.Version);
+            capabilities.SetCapability(MobileCapabilityType.DeviceName, device.Name);
+            capabilities.SetCapability(MobileCapabilityType.App, app.AppPath);
+            capabilities.SetCapability(MobileCapabilityType.AutomationName, Properties.Settings.Default.AutomationName);
+            capabilities.SetCapability(MobileCapabilityType.NewCommandTimeout, 0);
+            capabilities.SetCapability(MobileCapabilityType.NoReset, true);
+            capabilities.SetCapability("unicodeKeyboard", true);
+            capabilities.SetCapability("resetKeyboard", true);
+            capabilities.SetCapability("appPackage", app.AppPackage);
+            capabilities.SetCapability("appActivity", appActivity);
+            capabilities.SetCapability("newCommandTimeout", 0);
+            capabilities.SetCapability("avdLaunchTimeout", 600000);
+
+
+            driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:"+port+"/wd/hub"), capabilities);
+            //driver.StartActivity(app.AppPackage, appActivity);
+        }
         public AndroidElement GetElementByText(string text)
         {
             var elementsList = driver.FindElementsByXPath("//*");

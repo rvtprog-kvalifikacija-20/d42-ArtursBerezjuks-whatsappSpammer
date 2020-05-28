@@ -321,6 +321,12 @@
     <Compile Include="DeviceController\Apps.cs" />
     <Compile Include="CommandExecutor.cs" />
     <Compile Include="DeviceController\DeviceController.cs" />
+    <Compile Include="DeviceController\DeviceControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviceController\DeviceControllerForm.Designer.cs">
+      <DependentUpon>DeviceControllerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -361,6 +367,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>whatsappspammerDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DeviceController\DeviceControllerForm.resx">
+      <DependentUpon>DeviceControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviceForm.resx">
       <DependentUpon>DeviceForm.cs</DependentUpon>
     </EmbeddedResource>
