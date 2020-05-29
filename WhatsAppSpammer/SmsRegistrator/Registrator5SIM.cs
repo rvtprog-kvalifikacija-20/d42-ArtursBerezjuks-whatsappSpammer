@@ -18,7 +18,11 @@ namespace WhatsAppSpammer.SmsRegistrator
             activationPhones = new Dictionary<string, string>();
             BaseUrl = "http://api1.5sim.net/stubs/handler_api.php";
         }
-
+        public Registrator5SIM() : base()
+        {
+            activationPhones = new Dictionary<string, string>();
+            BaseUrl = "http://api1.5sim.net/stubs/handler_api.php";
+        }
         public override async Task<string> GetNumber()
         {
             string request = BaseUrl+"?api_key=a13163e0458348e4b47f62bf8f440350&action=getNumber&country="+Country+"&service=wa&count=1";

@@ -13,16 +13,32 @@ namespace WhatsAppSpammer
 { 
     public static class WhatsAppScenario
     {
+
+        public static async void Registration(
+            DeviceController.DeviceController deviceController
+        ) {
+            Registration(
+                deviceController.DeviceName,
+                deviceController.Proxy,
+                deviceController.AppiumDevice,
+                deviceController.SmsRegistrator,
+                deviceController.Nickname,
+                deviceController.Port
+            );
+        }
+
         public static async void Registration(
             string emulatorImageName,
             string proxy,
             AppiumDevice appium,
             AbstractSmsRegistrator smsRegistrator,
-            string nickname
-        )
-        {
+            string nickname,
+            string port
+        ) {
+            
             bool banned = false;
             int iterations = 0;
+
             string command = "emulator @" + emulatorImageName;
             if (!proxy.IsNullOrEmpty())
             {
@@ -46,8 +62,9 @@ namespace WhatsAppSpammer
                     Logger.log("Running Contacts app");
                     appium = new AppiumDevice(Apps.Contacts,
                         Apps.ContatsActivity_Main,
-                        new Device(emulatorImageName)
-                    );
+                        new Device(emulatorImageName),
+                        port
+                    ) ;
                     SendVCard();
                     break;
                 }
@@ -82,6 +99,7 @@ namespace WhatsAppSpammer
             {
                 try
                 {
+                    
                     number = await smsRegistrator.GetNumber();
                     Logger.log("Recived number: " + number);
                     number = number.Remove(0, 1);
@@ -90,6 +108,10 @@ namespace WhatsAppSpammer
                 catch
                 {
                     iterations++;
+                    if (iterations > 10)
+                    {
+                        throw new Exception("Sms registrator error");
+                    }
                     await Task.Delay(2000);
                 }
             }
@@ -103,7 +125,8 @@ namespace WhatsAppSpammer
                     Logger.log("Registration started");
                     appium = new AppiumDevice(Apps.WhatsApp,
                             Apps.WhatsAppActivity_Eula,
-                            new Device(emulatorImageName));
+                            new Device(emulatorImageName),
+                            port);
                     banned = await WhatsAppScenario.Registration(appium, number, "7");
                     if (banned)
                     {
@@ -184,8 +207,6 @@ namespace WhatsAppSpammer
                 }
             }
 
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
-            player.Play();
         }
         public static async void SendVCard()
         {

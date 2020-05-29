@@ -12,11 +12,15 @@ namespace WhatsAppSpammer.DeviceController
 {
     public partial class DeviceControllerForm : Form
     {
-        public DeviceController DeviceController {get;set;}
-        public DeviceControllerForm(string deviceName, string proxy)
+        public DeviceController DeviceController { get; set; }
+        public DeviceControllerForm(DeviceController deviceController)
         {
-            DeviceController = new DeviceController(deviceName, proxy);
             InitializeComponent();
+            DeviceController = deviceController;
+            labelName.Text = deviceController.DeviceName;
+            labelNickname.Text = deviceController.Nickname;
+            labelNumber.Text = "";
+            labelProxy.Text = deviceController.Proxy;
         }
 
         private void DeviceControllerForm_Load(object sender, EventArgs e)

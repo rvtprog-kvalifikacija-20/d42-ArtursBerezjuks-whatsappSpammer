@@ -15,9 +15,11 @@ namespace WhatsAppSpammer
 {
     public class AppiumDevice
     {
-        AndroidDriver<AndroidElement> driver;
-        Device Device { get; set; }
-        
+        public AndroidDriver<AndroidElement> driver;
+        public Device Device { get; set; }
+       
+        public string Port { get; set; }
+       
         public AppiumDevice(App app, string appActivity, Device device)
         {
             this.Device = device;
@@ -37,9 +39,7 @@ namespace WhatsAppSpammer
             capabilities.SetCapability("newCommandTimeout", 0);
             capabilities.SetCapability("avdLaunchTimeout", 600000);
 
-
             driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), capabilities);
-            //driver.StartActivity(app.AppPackage, appActivity);
         }
         public AppiumDevice(App app, string appActivity, Device device, string port)
         {
@@ -60,7 +60,7 @@ namespace WhatsAppSpammer
             capabilities.SetCapability("newCommandTimeout", 0);
             capabilities.SetCapability("avdLaunchTimeout", 600000);
 
-
+            Port = port;
             driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:"+port+"/wd/hub"), capabilities);
             //driver.StartActivity(app.AppPackage, appActivity);
         }

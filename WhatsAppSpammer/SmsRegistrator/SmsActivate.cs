@@ -17,6 +17,11 @@ namespace WhatsAppSpammer
             BaseUrl = "https://sms-activate.ru/stubs/handler_api.php";
             activationPhones = new Dictionary<string, string>();
         }
+        public SmsActivate() : base()
+        {
+            BaseUrl = "https://sms-activate.ru/stubs/handler_api.php";
+            activationPhones = new Dictionary<string, string>();
+        }
         public override async Task<string> GetNumber()
         {
             string request = BaseUrl + "?api_key=" + ApiKey + "&action=getNumber&service=wa&ref=" + Referal + "&country=" + Country;

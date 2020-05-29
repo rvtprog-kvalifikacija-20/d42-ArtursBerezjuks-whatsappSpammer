@@ -39,6 +39,8 @@
             this.buttonEmulatorRun = new System.Windows.Forms.Button();
             this.textBoxAppiumPort = new System.Windows.Forms.TextBox();
             this.labelAppiumPort = new System.Windows.Forms.Label();
+            this.labelSmsRegistrator = new System.Windows.Forms.Label();
+            this.comboBoxSmsRegistrator = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelProxy
@@ -76,6 +78,7 @@
             this.Settings.TabIndex = 55;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
+            this.Settings.Click += new System.EventHandler(this.Settings_Click);
             // 
             // textBoxName
             // 
@@ -83,6 +86,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(197, 20);
             this.textBoxName.TabIndex = 53;
+            this.textBoxName.Text = "Nick";
             // 
             // textBoxProxy
             // 
@@ -99,6 +103,7 @@
             this.buttonGetProxy.TabIndex = 49;
             this.buttonGetProxy.Text = "Get proxy";
             this.buttonGetProxy.UseVisualStyleBackColor = true;
+            this.buttonGetProxy.Click += new System.EventHandler(this.buttonGetProxy_Click);
             // 
             // comboBoxAppium
             // 
@@ -116,7 +121,7 @@
             this.buttonEmulatorRun.TabIndex = 47;
             this.buttonEmulatorRun.Text = "Run emulator, Import contacts and Register whatsapp";
             this.buttonEmulatorRun.UseVisualStyleBackColor = true;
-            this.buttonEmulatorRun.Click += new System.EventHandler(this.buttonEmulator_Click);
+            this.buttonEmulatorRun.Click += new System.EventHandler(this.buttonEmulatorRun_Click);
             // 
             // textBoxAppiumPort
             // 
@@ -124,6 +129,7 @@
             this.textBoxAppiumPort.Name = "textBoxAppiumPort";
             this.textBoxAppiumPort.Size = new System.Drawing.Size(208, 20);
             this.textBoxAppiumPort.TabIndex = 59;
+            this.textBoxAppiumPort.Text = "4723";
             // 
             // labelAppiumPort
             // 
@@ -134,11 +140,34 @@
             this.labelAppiumPort.TabIndex = 60;
             this.labelAppiumPort.Text = "Appium Server port";
             // 
+            // labelSmsRegistrator
+            // 
+            this.labelSmsRegistrator.AutoSize = true;
+            this.labelSmsRegistrator.Location = new System.Drawing.Point(29, 132);
+            this.labelSmsRegistrator.Name = "labelSmsRegistrator";
+            this.labelSmsRegistrator.Size = new System.Drawing.Size(76, 13);
+            this.labelSmsRegistrator.TabIndex = 62;
+            this.labelSmsRegistrator.Text = "Sms registrator";
+            // 
+            // comboBoxSmsRegistrator
+            // 
+            this.comboBoxSmsRegistrator.FormattingEnabled = true;
+            this.comboBoxSmsRegistrator.Items.AddRange(new object[] {
+            "SmsActivate",
+            "Registrator5SIM"});
+            this.comboBoxSmsRegistrator.Location = new System.Drawing.Point(111, 129);
+            this.comboBoxSmsRegistrator.Name = "comboBoxSmsRegistrator";
+            this.comboBoxSmsRegistrator.Size = new System.Drawing.Size(229, 21);
+            this.comboBoxSmsRegistrator.TabIndex = 63;
+            this.comboBoxSmsRegistrator.Text = "SmsActivate";
+            // 
             // WhatsAppSpammer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 243);
+            this.Controls.Add(this.comboBoxSmsRegistrator);
+            this.Controls.Add(this.labelSmsRegistrator);
             this.Controls.Add(this.labelAppiumPort);
             this.Controls.Add(this.textBoxAppiumPort);
             this.Controls.Add(this.labelProxy);
@@ -171,6 +200,8 @@
         private System.Windows.Forms.Button buttonEmulatorRun;
         private System.Windows.Forms.TextBox textBoxAppiumPort;
         private System.Windows.Forms.Label labelAppiumPort;
+        private System.Windows.Forms.Label labelSmsRegistrator;
+        private System.Windows.Forms.ComboBox comboBoxSmsRegistrator;
     }
 }
 

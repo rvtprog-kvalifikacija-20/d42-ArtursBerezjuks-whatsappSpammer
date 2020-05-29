@@ -14,6 +14,7 @@ using System.Threading;
 using MixERP.Net.VCards;
 using System.Configuration;
 using WhatsAppSpammer.SmsRegistrator;
+using WhatsAppSpammer.DeviceController;
 
 namespace WhatsAppSpammer
 {
@@ -22,7 +23,6 @@ namespace WhatsAppSpammer
 
         private MessageSender ms { get; set; }
         private AppiumDevice appium;
-        private bool settingsChanged;
         private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
         private int Count { get; set; }
@@ -268,23 +268,52 @@ namespace WhatsAppSpammer
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
             player.Play();
         }
-        private void buttonEmulatorRun_Click(object sender, EventArgs e)
+        private async void buttonEmulatorRun_Click(object sender, EventArgs e)
         {
             try
             {
-                DeviceControllers.Add(new DeviceController.DeviceController(comboBoxAppium.Text, textBoxProxy.Text));
-               // Automatization(comboBoxAppium.Text, textBoxProxy.Text);
+                Invoke(new Action(() =>  CreateDeviceController(
+                    comboBoxAppium.Text,
+                    textBoxProxy.Text,
+                    comboBoxSmsRegistrator.Text,
+                    textBoxName.Text,
+                    null,
+                    textBoxAppiumPort.Text)
+                ));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+        public void CreateDeviceController(
+            string deviceName,
+            string proxy,
+            string smsRegistrator,
+            string nickname,
+            AppiumDevice device,
+            string port
+        ) {
+            DeviceController.DeviceController deviceController =
+                    new DeviceController.DeviceController(
+                        deviceName,
+                        proxy,
+                        smsRegistrator,
+                        nickname,
+                        null,
+                        port
+                    );
+            DeviceControllers.Add(deviceController);
 
+            deviceController.DeviceControllerForm.Show();
+            WhatsAppScenario.Registration(deviceController);
+
+            // Automatization(comboBoxAppium.Text, textBoxProxy.Text);
+        }
         private async void buttonGetProxy_Click(object sender, EventArgs e)
         {
-            //string response = await ApiRequest.GetRequestAsync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
-            string response = await ApiRequest.GetRequestAsync("https://my.virty.io/proxy_list/proxies.php?hash=0576f42d7cbe136471e6241a6531020f&type=http&format=format3");
+            string response = await ApiRequest.GetRequestAsync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
+            //string response = await ApiRequest.GetRequestAsync("https://my.virty.io/proxy_list/proxies.php?hash=0576f42d7cbe136471e6241a6531020f&type=http&format=format3");
             string[] adresses = response.Split('\n');
           
             Random rand = new Random();

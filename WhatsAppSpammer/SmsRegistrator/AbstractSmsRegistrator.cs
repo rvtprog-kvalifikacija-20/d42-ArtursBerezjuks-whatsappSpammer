@@ -13,7 +13,12 @@ namespace WhatsAppSpammer
             Referal = referal;
             Country = counrty;
         }
-
+        public AbstractSmsRegistrator()
+        {
+            ApiKey = Properties.Settings.Default.ApiKey;
+            Referal = Properties.Settings.Default.Referal;
+            Country = Properties.Settings.Default.Country;
+        }
         public string BaseUrl { get; set; } 
         
         public string ApiKey { get; set; }
