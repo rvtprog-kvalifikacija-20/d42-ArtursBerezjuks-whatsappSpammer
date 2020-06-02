@@ -16,8 +16,7 @@ namespace WhatsAppSpammer.NumberBase
     {
         public CreateNumberBaseForm()
         {
-            InitializeComponent();
-            textBoxPath.Text = Properties.Settings.Default["PathToDirectory"].ToString();
+            InitializeComponent();  
         }
 
         private void textBoxMessage_TextChanged(object sender, EventArgs e)
@@ -28,9 +27,9 @@ namespace WhatsAppSpammer.NumberBase
         private void buttonCreateNumberBase_Click(object sender, EventArgs e)
         {
             WhatsappSpammerContext DB = new WhatsappSpammerContext();
-            FileReader fileReader = new FileReader(textBoxPath.Text);
             List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
-            fileReader.ReadFile(textBoxPath.Text).ForEach(i => phoneNumbers.Add(new PhoneNumber(i,null,null,null,null)));
+
+            FileReader.ReadFile(textBoxPath.Text).ForEach(i => phoneNumbers.Add(new PhoneNumber(i,null,null,null,null)));
             DB.NumberBase.Add(
                 new NumberBase(
                     textBoxName.Text,

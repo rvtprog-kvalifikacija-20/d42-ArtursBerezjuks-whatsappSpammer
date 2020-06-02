@@ -7,25 +7,21 @@ using System.Threading.Tasks;
 
 namespace WhatsappSpammer
 {
-    public class FileReader
+    public static class FileReader
     {
-        private string Path { get; set; }
         /// <summary>
         /// Read txt file by lines and put in dictionary(int,string)
         /// </summary>
         /// <param name="filename">txt filename</param>
         /// <returns>Dictionary(int,string) </returns>
-        public List<string> ReadFile(string filename)
+        public static List<string> ReadFile(string filename)
         {
             string line;
-            if (Path != "")
-            {
-                Path += "/";
-            }
+
             List<string> numbers = new List<string>();
             // Read the file and display it line by line.  
             System.IO.StreamReader file =
-                new System.IO.StreamReader(Path+filename);
+                new System.IO.StreamReader(filename);
             while ((line = file.ReadLine()) != null)
             {
                 numbers.Add(line);
@@ -34,19 +30,12 @@ namespace WhatsappSpammer
             return numbers;
         }
     
-        /// <summary>
-        /// set path to phone numbers dirtectory
-        /// </summary>
-        /// <param name="path"></param>
-        public FileReader (string path)
-        {
-            this.Path = path;    
-        } 
-        public List<string> GetFilenames()
+
+        public static List<string> GetFilenames(string path)
         {
             try
             {
-                string[] filenamesArr = Directory.GetFiles(Path, "*.txt");
+                string[] filenamesArr = Directory.GetFiles(path, "*.txt");
                 List<string> filenames = new List<string>();
                 for (int i = 0; i < filenamesArr.Length; i++)
                 {

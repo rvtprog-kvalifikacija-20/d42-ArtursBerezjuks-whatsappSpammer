@@ -25,19 +25,6 @@ namespace WhatsAppSpammer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\User\\source\\repos\\WhatsAppSpammer\\WhatsAppSpammer\\bin\\Debug\\phoneNumbers" +
-            "")]
-        public string PathToDirectory {
-            get {
-                return ((string)(this["PathToDirectory"]));
-            }
-            set {
-                this["PathToDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("UiAutomator1")]
         public string AutomationName {
             get {
@@ -62,7 +49,8 @@ namespace WhatsAppSpammer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\WhatsApp.apk")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\User\\source\\repos\\WhatsAppSpammer\\WhatsAppSpammer\\bin\\Release\\WhatsApp.a" +
+            "pk")]
         public string WhatsAppApk {
             get {
                 return ((string)(this["WhatsAppApk"]));
@@ -74,8 +62,8 @@ namespace WhatsAppSpammer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\com.kitkatandroid.conta" +
-            "cts.com.apk")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\User\\source\\repos\\WhatsAppSpammer\\WhatsAppSpammer\\bin\\Release\\com.kitkat" +
+            "android.contacts.com.apk")]
         public string ContactsApk {
             get {
                 return ((string)(this["ContactsApk"]));
@@ -121,7 +109,7 @@ namespace WhatsAppSpammer.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=WIN-895F0M4C4GI;Integrated Security=True")]

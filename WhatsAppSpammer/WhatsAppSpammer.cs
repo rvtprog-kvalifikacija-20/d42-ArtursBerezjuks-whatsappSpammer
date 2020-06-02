@@ -143,10 +143,7 @@ namespace WhatsAppSpammer
             textBoxProxy.Text = adresses[index].Trim();
                 
         }
-
-       
-
-
+            
         private async void buttonGenerateVcard_Click(object sender, EventArgs e)
         {
             try
@@ -154,7 +151,7 @@ namespace WhatsAppSpammer
                 string vCardText = await Task.Run(() => VCardGenerator());
                 await Task.Run(() =>
                 {
-                    System.IO.File.WriteAllText(Properties.Settings.Default.PathToDirectory + "/vcard.vcf", vCardText);
+                    System.IO.File.WriteAllText("vcard.vcf", vCardText);
                 });
                 MessageBox.Show("VCard ready!");
             }
@@ -190,7 +187,7 @@ namespace WhatsAppSpammer
         {
             string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
             CommandExecutor.ExecuteCommandAsync(command);
-            command = " push " + Properties.Settings.Default.PathToDirectory + "/vcard.vcf /sdcard";
+            command = " push " + " vcard.vcf /sdcard";
             await CommandExecutor.AdbExecutor(command);
         }
 

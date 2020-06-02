@@ -217,7 +217,7 @@ namespace WhatsAppSpammer
         {
             string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
             CommandExecutor.ExecuteCommandAsync(command);
-            command = " push " + Properties.Settings.Default.PathToDirectory + "/vcard.vcf /sdcard";
+            command = " push " +  " vcard.vcf /sdcard";
             await CommandExecutor.AdbExecutor(command);
         }
 
