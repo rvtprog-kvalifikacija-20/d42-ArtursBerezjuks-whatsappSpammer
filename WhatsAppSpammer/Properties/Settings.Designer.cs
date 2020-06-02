@@ -12,7 +12,7 @@ namespace WhatsAppSpammer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,30 +20,6 @@ namespace WhatsAppSpammer.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://eu46.chat-api.com/instance70930")]
-        public string URL {
-            get {
-                return ((string)(this["URL"]));
-            }
-            set {
-                this["URL"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ec7ua2ymrt7qgf7u")]
-        public string Token {
-            get {
-                return ((string)(this["Token"]));
-            }
-            set {
-                this["Token"] = value;
             }
         }
         
@@ -148,11 +124,22 @@ namespace WhatsAppSpammer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-C2BGBVF;Initial Catalog=whatsappspammer;Integrated Security=T" +
-            "rue;Pooling=False")]
-        public string whatsappspammerConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=WIN-895F0M4C4GI;Integrated Security=True")]
+        public string ConnectionString {
             get {
-                return ((string)(this["whatsappspammerConnectionString"]));
+                return ((string)(this["ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.proxy-list.download/api/v1/get?type=http&country=RU")]
+        public string ProxyUrl {
+            get {
+                return ((string)(this["ProxyUrl"]));
+            }
+            set {
+                this["ProxyUrl"] = value;
             }
         }
     }

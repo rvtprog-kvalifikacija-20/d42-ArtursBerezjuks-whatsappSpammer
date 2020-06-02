@@ -64,9 +64,9 @@
             // listBoxLogger
             // 
             this.listBoxLogger.FormattingEnabled = true;
-            this.listBoxLogger.Location = new System.Drawing.Point(3, 69);
+            this.listBoxLogger.Location = new System.Drawing.Point(3, 160);
             this.listBoxLogger.Name = "listBoxLogger";
-            this.listBoxLogger.Size = new System.Drawing.Size(256, 342);
+            this.listBoxLogger.Size = new System.Drawing.Size(256, 251);
             this.listBoxLogger.TabIndex = 3;
             // 
             // labelNickname

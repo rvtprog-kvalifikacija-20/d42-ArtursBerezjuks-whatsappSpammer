@@ -33,11 +33,7 @@ namespace WhatsappSpammer
             file.Close();
             return numbers;
         }
-        public NumberBase GetNumberBase(string filename)
-        {
-            NumberBase numberBase = new NumberBase(ReadFile(filename));
-            return numberBase;
-        }       
+    
         /// <summary>
         /// set path to phone numbers dirtectory
         /// </summary>

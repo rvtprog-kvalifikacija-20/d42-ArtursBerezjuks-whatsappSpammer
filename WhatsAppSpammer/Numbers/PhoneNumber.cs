@@ -25,7 +25,7 @@ namespace WhatsAppSpammer.Numbers
             Surname = surname;
             Gender = gender;
         }
-
+        [System.ComponentModel.DataAnnotations.Key]
         public string Number { get; set; }
         
         public bool? HaveWhatsapp { get; set; }

@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WhatsAppSpammer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="URL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://eu46.chat-api.com/instance70930</Value>
-    </Setting>
-    <Setting Name="Token" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ec7ua2ymrt7qgf7u</Value>
-    </Setting>
     <Setting Name="PathToDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\User\source\repos\WhatsAppSpammer\WhatsAppSpammer\bin\Debug\phoneNumbers</Value>
     </Setting>
@@ -32,13 +26,16 @@
     <Setting Name="Country" Type="System.String" Scope="User">
       <Value Profile="(Default)">russia</Value>
     </Setting>
-    <Setting Name="whatsappspammerConnectionString" Type="(Connection string)" Scope="Application">
+    <Setting Name="ConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=DESKTOP-C2BGBVF;Initial Catalog=whatsappspammer;Integrated Security=True;Pooling=False&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=WIN-895F0M4C4GI;Integrated Security=True&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=DESKTOP-C2BGBVF;Initial Catalog=whatsappspammer;Integrated Security=True;Pooling=False</Value>
+      <Value Profile="(Default)">Data Source=WIN-895F0M4C4GI;Integrated Security=True</Value>
+    </Setting>
+    <Setting Name="ProxyUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.proxy-list.download/api/v1/get?type=http&amp;country=RU</Value>
     </Setting>
   </Settings>
 </SettingsFile>

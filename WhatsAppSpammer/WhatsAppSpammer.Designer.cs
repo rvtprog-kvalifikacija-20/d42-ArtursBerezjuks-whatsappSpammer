@@ -41,6 +41,9 @@
             this.labelAppiumPort = new System.Windows.Forms.Label();
             this.labelSmsRegistrator = new System.Windows.Forms.Label();
             this.comboBoxSmsRegistrator = new System.Windows.Forms.ComboBox();
+            this.comboBoxAdCompanies = new System.Windows.Forms.ComboBox();
+            this.labelAdCompany = new System.Windows.Forms.Label();
+            this.buttonNumberBase = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelProxy
@@ -72,7 +75,7 @@
             // 
             // Settings
             // 
-            this.Settings.Location = new System.Drawing.Point(29, 208);
+            this.Settings.Location = new System.Drawing.Point(29, 274);
             this.Settings.Name = "Settings";
             this.Settings.Size = new System.Drawing.Size(311, 23);
             this.Settings.TabIndex = 55;
@@ -115,7 +118,7 @@
             // 
             // buttonEmulatorRun
             // 
-            this.buttonEmulatorRun.Location = new System.Drawing.Point(29, 181);
+            this.buttonEmulatorRun.Location = new System.Drawing.Point(29, 247);
             this.buttonEmulatorRun.Name = "buttonEmulatorRun";
             this.buttonEmulatorRun.Size = new System.Drawing.Size(311, 21);
             this.buttonEmulatorRun.TabIndex = 47;
@@ -161,11 +164,41 @@
             this.comboBoxSmsRegistrator.TabIndex = 63;
             this.comboBoxSmsRegistrator.Text = "SmsActivate";
             // 
+            // comboBoxAdCompanies
+            // 
+            this.comboBoxAdCompanies.FormattingEnabled = true;
+            this.comboBoxAdCompanies.Location = new System.Drawing.Point(98, 159);
+            this.comboBoxAdCompanies.Name = "comboBoxAdCompanies";
+            this.comboBoxAdCompanies.Size = new System.Drawing.Size(242, 21);
+            this.comboBoxAdCompanies.TabIndex = 64;
+            // 
+            // labelAdCompany
+            // 
+            this.labelAdCompany.AutoSize = true;
+            this.labelAdCompany.Location = new System.Drawing.Point(26, 159);
+            this.labelAdCompany.Name = "labelAdCompany";
+            this.labelAdCompany.Size = new System.Drawing.Size(66, 13);
+            this.labelAdCompany.TabIndex = 65;
+            this.labelAdCompany.Text = "Ad company";
+            // 
+            // buttonNumberBase
+            // 
+            this.buttonNumberBase.Location = new System.Drawing.Point(29, 218);
+            this.buttonNumberBase.Name = "buttonNumberBase";
+            this.buttonNumberBase.Size = new System.Drawing.Size(311, 23);
+            this.buttonNumberBase.TabIndex = 67;
+            this.buttonNumberBase.Text = "Create advertisment company";
+            this.buttonNumberBase.UseVisualStyleBackColor = true;
+            this.buttonNumberBase.Click += new System.EventHandler(this.buttonNumberBase_Click);
+            // 
             // WhatsAppSpammer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 243);
+            this.ClientSize = new System.Drawing.Size(363, 320);
+            this.Controls.Add(this.buttonNumberBase);
+            this.Controls.Add(this.labelAdCompany);
+            this.Controls.Add(this.comboBoxAdCompanies);
             this.Controls.Add(this.comboBoxSmsRegistrator);
             this.Controls.Add(this.labelSmsRegistrator);
             this.Controls.Add(this.labelAppiumPort);
@@ -182,6 +215,7 @@
             this.Name = "WhatsAppSpammer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "WhatsappSpammer";
+            this.Load += new System.EventHandler(this.WhatsAppSpammer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +236,9 @@
         private System.Windows.Forms.Label labelAppiumPort;
         private System.Windows.Forms.Label labelSmsRegistrator;
         private System.Windows.Forms.ComboBox comboBoxSmsRegistrator;
+        private System.Windows.Forms.ComboBox comboBoxAdCompanies;
+        private System.Windows.Forms.Label labelAdCompany;
+        private System.Windows.Forms.Button buttonNumberBase;
     }
 }
 

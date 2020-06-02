@@ -317,6 +317,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202006021356534_init.cs" />
+    <Compile Include="Migrations\202006021356534_init.designer.cs">
+      <DependentUpon>202006021356534_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021444185_init1.cs" />
+    <Compile Include="Migrations\202006021444185_init1.designer.cs">
+      <DependentUpon>202006021444185_init1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="NumberBase\CreateNumberBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NumberBase\CreateNumberBaseForm.Designer.cs">
+      <DependentUpon>CreateNumberBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumberBase\PhoneNumbers.cs" />
+    <Compile Include="WhatsappSpammerContext.cs" />
+    <Compile Include="DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DeviceController\AppiumDevice.cs" />
     <Compile Include="DeviceController\Apps.cs" />
     <Compile Include="CommandExecutor.cs" />
@@ -327,30 +349,18 @@
     <Compile Include="DeviceController\DeviceControllerForm.Designer.cs">
       <DependentUpon>DeviceControllerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeviceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeviceForm.Designer.cs">
-      <DependentUpon>DeviceForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="NumberBase\Message.cs" />
-    <Compile Include="NumberBase\MessageContext.cs" />
     <Compile Include="NumberBase\NumberBase.cs" />
     <Compile Include="Numbers\PhoneNumber.cs" />
-    <Compile Include="Numbers\PhoneNumberContext.cs" />
     <Compile Include="ObservableListSource.cs" />
     <Compile Include="SettingForm.cs" />
     <Compile Include="SmsRegistrator\ActivationNumber.cs" />
     <Compile Include="SmsRegistrator\AbstractSmsRegistrator.cs" />
-    <Compile Include="SmsRegistrator\ActivationNumberContext.cs" />
     <Compile Include="SmsRegistrator\Registrator5SIM.cs" />
     <Compile Include="Scenario\ContactsScenario.cs" />
     <Compile Include="DeviceController\Device.cs" />
     <Compile Include="FileReader.cs" />
-    <Compile Include="MessageSender.cs" />
-    <Compile Include="NumberBase.cs" />
-    <Compile Include="ServerResponse.cs" />
     <Compile Include="ApiRequest.cs" />
     <Compile Include="SmsRegistrator\SmsActivate.cs" />
     <Compile Include="Scenario\WhatsAppScenario.cs" />
@@ -370,8 +380,14 @@
     <EmbeddedResource Include="DeviceController\DeviceControllerForm.resx">
       <DependentUpon>DeviceControllerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeviceForm.resx">
-      <DependentUpon>DeviceForm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006021356534_init.resx">
+      <DependentUpon>202006021356534_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021444185_init1.resx">
+      <DependentUpon>202006021444185_init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberBase\CreateNumberBaseForm.resx">
+      <DependentUpon>CreateNumberBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -385,6 +401,17 @@
     <EmbeddedResource Include="WhatsAppSpammer.resx">
       <DependentUpon>WhatsAppSpammer.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

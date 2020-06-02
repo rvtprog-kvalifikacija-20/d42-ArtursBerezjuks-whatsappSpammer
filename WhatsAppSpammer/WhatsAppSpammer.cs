@@ -15,13 +15,13 @@ using MixERP.Net.VCards;
 using System.Configuration;
 using WhatsAppSpammer.SmsRegistrator;
 using WhatsAppSpammer.DeviceController;
+using WhatsAppSpammer.NumberBase;
 
 namespace WhatsAppSpammer
 {
     public partial class WhatsAppSpammer : Form
     {
-
-        private MessageSender ms { get; set; }
+        private WhatsappSpammerContext DB = new WhatsappSpammerContext();
         private AppiumDevice appium;
         private AbstractSmsRegistrator smsRegistrator;
         private List<Device> devices;
@@ -62,11 +62,9 @@ namespace WhatsAppSpammer
             int index = rand.Next(0, adresses.Length);
             textBoxProxy.Text = adresses[index].Trim();
 
-            ms = new MessageSender(
-                Properties.Settings.Default.URL,
-                Properties.Settings.Default.Token,
-                Properties.Settings.Default.PathToDirectory
-            );
+            DB.NumberBase.ToList<NumberBase.NumberBase>().ForEach(i => {
+                comboBoxAdCompanies.Items.Add(i.Name);
+            });
 
             Logger.initLogger();
             //Logger.loggerForm.Show();
@@ -92,182 +90,6 @@ namespace WhatsAppSpammer
             }
         }
 
-        public async void Automatization(string emulatorImageName, string proxy) {
-            bool banned = false;
-            int iterations = 0;
-            string command = "emulator @" + emulatorImageName;
-
-            if (textBoxProxy.Text != "")
-            {
-                command += " -http-proxy " + proxy;
-                System.IO.File.AppendAllText("usedproxy.txt", proxy + "\n");
-            }
-            command += " -wipe-data -no-snapshot-load";
-
-            Logger.log("Emulator starting at proxy ");
-            CommandExecutor.ExecuteCommandAsync(command);
-
-            await Task.Delay(5000);
-
-            /*Open contacts*/
-            iterations = 0;
-            while (iterations < 60)
-            {
-                try
-                {
-
-                    Logger.log("Running Contacts app");
-                    appium = new AppiumDevice(Apps.Contacts,
-                        Apps.ContatsActivity_Main,
-                        new Device(comboBoxAppium.Text));
-                    SendVCard();
-                    break;
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(1000);
-                }
-            }
-
-            /*Import Contacts*/
-            iterations = 0;
-            while (iterations < 60)
-            {
-                try
-                {
-
-                    Logger.log("Importing contacts");
-                    ContactsScenario.ImportContacts(appium);
-                    break;
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(500);
-                }
-            }
-
-            /*Get number to activate*/
-            string number = "";
-            iterations = 0;
-            while (iterations < 60)
-            {
-                try
-                {
-                    number = await smsRegistrator.GetNumber();
-
-                    Logger.log("Recived number: " + number);
-                    number = number.Remove(0, 1);
-                    break;
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(2000);
-                }
-            }
-
-            Random random = new Random();
-            iterations = 0;
-            while (iterations < 60)
-            {
-                try
-                {
-                    Logger.log("Registration started");
-                    appium = new AppiumDevice(Apps.WhatsApp,
-                            Apps.WhatsAppActivity_Eula,
-                            new Device(comboBoxAppium.Text));
-                    banned = await WhatsAppScenario.Registration(appium, number, "7");
-                    if (banned)
-                    {
-                        Logger.log("Number is banned");
-                        appium.CloseApp();
-                        smsRegistrator.SetStatus("7" + number, "10");
-                        smsRegistrator.SetStatus("7" + number, "-1");
-                        iterations = 0;
-                        while (iterations < 60)
-                        {
-                            try
-                            {
-                                number = await smsRegistrator.GetNumber();
-                                Logger.log("Waiting for code");
-                                number = number.Remove(0, 1);
-                                break;
-                            }
-                            catch
-                            {
-                                iterations++;
-                                await Task.Delay(5000);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(2000);
-                }
-            }
-            try
-            {
-                smsRegistrator.PhoneReady("7" + number);
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message, "SMS ACTIVATE");
-            }
-
-            iterations = 0;
-            while (iterations < 1200)
-            {
-                try
-                {
-                    string code = await smsRegistrator.GetCode("7" + number);
-                    if (code != "STATUS_WAIT_CODE")
-                    {
-                        WhatsAppScenario.VerifyCode(appium, code);
-                        break;
-                    }
-                    else
-                    {
-                        iterations++;
-                        await Task.Delay(1000);
-                    }
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(1000);
-                }
-            }
-
-            smsRegistrator.SetStatus("7" + number, "6");
-
-            iterations = 0;
-            while (iterations < 60)
-            {
-                try
-                {
-                    WhatsAppScenario.WriteName(appium, textBoxName.Text);
-                    break;
-                }
-                catch
-                {
-                    iterations++;
-                    await Task.Delay(500);
-                }
-            }
-
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Settings.Default.PathToDirectory + "/success.wav");
-            player.Play();
-        }
         private async void buttonEmulatorRun_Click(object sender, EventArgs e)
         {
             try
@@ -312,14 +134,14 @@ namespace WhatsAppSpammer
         }
         private async void buttonGetProxy_Click(object sender, EventArgs e)
         {
-            string response = await ApiRequest.GetRequestAsync("https://www.proxy-list.download/api/v1/get?type=http&country=RU");
+            string response = await ApiRequest.GetRequestAsync(Properties.Settings.Default.ProxyUrl);
             //string response = await ApiRequest.GetRequestAsync("https://my.virty.io/proxy_list/proxies.php?hash=0576f42d7cbe136471e6241a6531020f&type=http&format=format3");
             string[] adresses = response.Split('\n');
           
             Random rand = new Random();
             int index = rand.Next(0, adresses.Length-1);
             textBoxProxy.Text = adresses[index].Trim();
-
+                
         }
 
        
@@ -346,10 +168,10 @@ namespace WhatsAppSpammer
         private string VCardGenerator()
         {
             List<string> numbers = new List<string>();
-            var numberBases = ms.GetNumberBases();
+            var numberBases = new Dictionary<string, string>();
             foreach (var numberBase in numberBases.Values)
             {
-                numbers = numbers.Concat(numberBase.Numbers).ToList();
+              //  numbers = numbers.Concat(numberBase.Numbers).ToList();
             }
             string vcards = "";
             for (int i = 0; i < numbers.Count; i++)
@@ -363,6 +185,7 @@ namespace WhatsAppSpammer
         {
             SendVCard();
         }
+        
         private async void SendVCard()
         {
             string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
@@ -415,6 +238,22 @@ namespace WhatsAppSpammer
         private void Settings_Click(object sender, EventArgs e)
         {
             new SettingForm();
+        }
+
+        private void buttonSelectPhoneNumbers_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void WhatsAppSpammer_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonNumberBase_Click(object sender, EventArgs e)
+        {
+            CreateNumberBaseForm form = new CreateNumberBaseForm();
+            form.Show();
         }
     }
 }

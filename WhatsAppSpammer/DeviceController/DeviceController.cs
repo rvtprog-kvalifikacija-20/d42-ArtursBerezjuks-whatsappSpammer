@@ -16,7 +16,6 @@ namespace WhatsAppSpammer.DeviceController
         public AppiumDevice AppiumDevice { get; set; }
         public string Nickname { get; set; }
         public string Proxy { get; set; }
-
         public string Port{ get; set; }
         public DeviceControllerForm DeviceControllerForm {get; set;}
         public NumberBase.NumberBase NumberBase { get; set; }
@@ -40,6 +39,10 @@ namespace WhatsAppSpammer.DeviceController
             AppiumDevice = appiumDevice;
             Port = port;
             DeviceControllerForm = new DeviceControllerForm(this);
+        }
+        public void Log(string text)
+        {
+            DeviceControllerForm.Log(text);
         }
         private static object CreateInstance(string className)
         {

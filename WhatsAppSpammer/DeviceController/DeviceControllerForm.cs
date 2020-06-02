@@ -22,7 +22,10 @@ namespace WhatsAppSpammer.DeviceController
             labelNumber.Text = "";
             labelProxy.Text = deviceController.Proxy;
         }
-
+        public void Log(string text)
+        {
+            listBoxLogger.Items.Add(text);
+        }
         private void DeviceControllerForm_Load(object sender, EventArgs e)
         {
 
