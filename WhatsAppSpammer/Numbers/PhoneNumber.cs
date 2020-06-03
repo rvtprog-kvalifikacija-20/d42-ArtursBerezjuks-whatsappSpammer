@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WhatsAppSpammer.Numbers
 {
@@ -17,7 +13,7 @@ namespace WhatsAppSpammer.Numbers
             Gender = String.Empty;
         }
 
-        public PhoneNumber(string number, bool? haveWhatsapp, string name, string surname, string gender )
+        public PhoneNumber(string number, bool? haveWhatsapp, string name, string surname, string gender)
         {
             Number = number;
             HaveWhatsapp = haveWhatsapp;
@@ -27,7 +23,7 @@ namespace WhatsAppSpammer.Numbers
         }
         [System.ComponentModel.DataAnnotations.Key]
         public string Number { get; set; }
-        
+
         public bool? HaveWhatsapp { get; set; }
 
         public string Name { get; set; }

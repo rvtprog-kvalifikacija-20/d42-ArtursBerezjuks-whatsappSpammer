@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WhatsAppSpammer.SmsRegistrator
@@ -25,11 +24,11 @@ namespace WhatsAppSpammer.SmsRegistrator
         }
         public override async Task<string> GetNumber()
         {
-            string request = BaseUrl+"?api_key=a13163e0458348e4b47f62bf8f440350&action=getNumber&country="+Country+"&service=wa&count=1";
+            string request = BaseUrl + "?api_key=a13163e0458348e4b47f62bf8f440350&action=getNumber&country=" + Country + "&service=wa&count=1";
             string response = await ApiRequest.GetRequestAsync(request);
 
             string[] statusIdPhone = response.Split(':');
-            if (statusIdPhone[0]== "ACCESS_NUMBER")
+            if (statusIdPhone[0] == "ACCESS_NUMBER")
             {
                 activationPhones.Add(statusIdPhone[1], statusIdPhone[2]);
                 return statusIdPhone[2];
@@ -38,7 +37,7 @@ namespace WhatsAppSpammer.SmsRegistrator
             {
                 throw new Exception(statusIdPhone[0]);
             }
-           
+
         }
         public override async Task<string> GetCode(string phone)
         {
@@ -68,11 +67,11 @@ namespace WhatsAppSpammer.SmsRegistrator
                 throw new Exception(response);
             }
         }
-        public override async void SetStatus(string phone,string statusCode)
+        public override async void SetStatus(string phone, string statusCode)
         {
-            string request = BaseUrl + "?api_key=" + ApiKey + "&action=setStatus&status="+statusCode+"&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
+            string request = BaseUrl + "?api_key=" + ApiKey + "&action=setStatus&status=" + statusCode + "&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             await ApiRequest.GetRequestAsync(request);
-            
+
         }
     }
 }

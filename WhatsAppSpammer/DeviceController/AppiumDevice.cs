@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
-using OpenQA.Selenium.Appium.Service;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Enums;
-using System.IO;
+using OpenQA.Selenium.Remote;
+using System;
 
 namespace WhatsAppSpammer
 {
@@ -17,18 +10,18 @@ namespace WhatsAppSpammer
     {
         public AndroidDriver<AndroidElement> driver;
         public Device Device { get; set; }
-       
+
         public string Port { get; set; }
-       
+
         public AppiumDevice(App app, string appActivity, Device device)
         {
             this.Device = device;
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            
+
             capabilities.SetCapability(MobileCapabilityType.PlatformName, device.Platform);
             capabilities.SetCapability(MobileCapabilityType.PlatformVersion, device.Version);
             capabilities.SetCapability(MobileCapabilityType.DeviceName, device.Name);
-            capabilities.SetCapability(MobileCapabilityType.App,app.AppPath);
+            capabilities.SetCapability(MobileCapabilityType.App, app.AppPath);
             capabilities.SetCapability(MobileCapabilityType.AutomationName, Properties.Settings.Default.AutomationName);
             capabilities.SetCapability(MobileCapabilityType.NewCommandTimeout, 0);
             capabilities.SetCapability(MobileCapabilityType.NoReset, true);
@@ -61,7 +54,7 @@ namespace WhatsAppSpammer
             capabilities.SetCapability("avdLaunchTimeout", 600000);
 
             Port = port;
-            driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:"+port+"/wd/hub"), capabilities);
+            driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:" + port + "/wd/hub"), capabilities);
             //driver.StartActivity(app.AppPackage, appActivity);
         }
         public AndroidElement GetElementByText(string text)
@@ -94,7 +87,7 @@ namespace WhatsAppSpammer
         }
         public void Click(string text)
         {
-            
+
             AndroidElement el = driver.FindElement(MobileBy.Id(GetElementByText(text).Id));
             el.Tap(1, 10);
         }

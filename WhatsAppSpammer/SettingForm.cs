@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WhatsAppSpammer
@@ -65,12 +62,12 @@ namespace WhatsAppSpammer
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            foreach(var setting in settings)
+            foreach (var setting in settings)
             {
-                Properties.Settings.Default[setting.Key] = setting.Value.Text.ToString();             
+                Properties.Settings.Default[setting.Key] = setting.Value.Text.ToString();
             }
-            
-                
+
+
             DialogResult dialogResult = MessageBox.Show("Save settings and continue?", "Save", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

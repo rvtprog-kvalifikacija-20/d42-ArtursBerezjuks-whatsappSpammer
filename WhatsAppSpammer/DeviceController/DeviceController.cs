@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
-using WhatsAppSpammer.NumberBase;
 
 namespace WhatsAppSpammer.DeviceController
 {
@@ -16,8 +11,8 @@ namespace WhatsAppSpammer.DeviceController
         public AppiumDevice AppiumDevice { get; set; }
         public string Nickname { get; set; }
         public string Proxy { get; set; }
-        public string Port{ get; set; }
-        public DeviceControllerForm DeviceControllerForm {get; set;}
+        public string Port { get; set; }
+        public DeviceControllerForm DeviceControllerForm { get; set; }
         public NumberBase.NumberBase NumberBase { get; set; }
 
         public AbstractSmsRegistrator SmsRegistrator { get; set; }
@@ -35,7 +30,7 @@ namespace WhatsAppSpammer.DeviceController
             DeviceName = deviceName;
             Proxy = proxy;
             Nickname = nickname;
-            SmsRegistrator = (AbstractSmsRegistrator) CreateInstance(smsRegistratorName);
+            SmsRegistrator = (AbstractSmsRegistrator)CreateInstance(smsRegistratorName);
             AppiumDevice = appiumDevice;
             Port = port;
             DeviceControllerForm = new DeviceControllerForm(this);
@@ -53,7 +48,7 @@ namespace WhatsAppSpammer.DeviceController
 
             return Activator.CreateInstance(type);
         }
-       public void Wait(int ms)
+        public void Wait(int ms)
         {
             Thread.Sleep(ms);
         }

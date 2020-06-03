@@ -56,6 +56,7 @@
             this.buttonsSelectFile.TabIndex = 1;
             this.buttonsSelectFile.Text = "Select File";
             this.buttonsSelectFile.UseVisualStyleBackColor = true;
+            this.buttonsSelectFile.Click += new System.EventHandler(this.buttonsSelectFile_Click);
             // 
             // textBoxPath
             // 

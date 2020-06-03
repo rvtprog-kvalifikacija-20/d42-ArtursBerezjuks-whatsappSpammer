@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WhatsAppSpammer
+﻿namespace WhatsAppSpammer
 {
     public class Device
     {
@@ -34,7 +28,7 @@ namespace WhatsAppSpammer
 
         public string GetActivity()
         {
-           return CommandExecutor.ExecuteCommandSync("adb shell dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
+            return CommandExecutor.ExecuteCommandSync("adb shell dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'");
         }
 
 

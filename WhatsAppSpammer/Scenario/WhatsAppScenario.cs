@@ -1,22 +1,16 @@
 ﻿using Castle.Core.Internal;
-using MixERP.Net.VCards.Processors;
-using OpenQA.Selenium.Appium.Android;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using WhatsAppSpammer.SmsRegistrator;
 
-namespace WhatsAppSpammer 
-{ 
+namespace WhatsAppSpammer
+{
     public static class WhatsAppScenario
     {
 
         public static async void Registration(
             DeviceController.DeviceController deviceController
-        ) {
+        )
+        {
             Registration(
                 deviceController,
                 deviceController.DeviceName,
@@ -36,8 +30,9 @@ namespace WhatsAppSpammer
             AbstractSmsRegistrator smsRegistrator,
             string nickname,
             string port
-        ) {
-            
+        )
+        {
+
             bool banned = false;
             int iterations = 0;
 
@@ -66,7 +61,7 @@ namespace WhatsAppSpammer
                         Apps.ContatsActivity_Main,
                         new Device(emulatorImageName),
                         port
-                    ) ;
+                    );
                     SendVCard();
                     break;
                 }
@@ -168,7 +163,7 @@ namespace WhatsAppSpammer
                     await Task.Delay(2000);
                 }
             }
-           
+
             smsRegistrator.PhoneReady("7" + number);
 
             iterations = 0;
@@ -217,7 +212,7 @@ namespace WhatsAppSpammer
         {
             string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
             CommandExecutor.ExecuteCommandAsync(command);
-            command = " push " +  " vcard.vcf /sdcard";
+            command = " push " + " vcard.vcf /sdcard";
             await CommandExecutor.AdbExecutor(command);
         }
 
@@ -226,7 +221,7 @@ namespace WhatsAppSpammer
 
             Logger.log("Inputing number");
             Random random = new Random();
-            var el1 =  ap.GetElementByID("com.whatsapp:id/eula_accept");
+            var el1 = ap.GetElementByID("com.whatsapp:id/eula_accept");
             await Task.Delay(random.Next(1000, 2000));
             el1.Click();
 
@@ -243,7 +238,7 @@ namespace WhatsAppSpammer
             int iterations = 0;
             bool banned = false;
             while (iterations < 60)
-            { 
+            {
                 try
                 {
                     var el5 = ap.GetElementByID("android:id/button1");
@@ -254,15 +249,15 @@ namespace WhatsAppSpammer
                         Logger.log("Number " + phone + " banned");
                         break;
                     }
-                    
+
                     el5.Click();
                     break;
                 }
                 catch
                 {
-                    iterations++; 
+                    iterations++;
                     await Task.Delay(500);
-                }           
+                }
             }
             Logger.log("Waiting for code");
             return banned;
@@ -271,7 +266,7 @@ namespace WhatsAppSpammer
         {
             Logger.log("Recived code: " + code);
             var el6 = ap.GetElementByID("com.whatsapp:id/verify_sms_code_input");
-            el6.SendKeys(code);     
+            el6.SendKeys(code);
         }
         public static void WriteName(AppiumDevice ap, string name)
         {
@@ -286,10 +281,10 @@ namespace WhatsAppSpammer
         }
 
         //Old
-        public static async void WriteMessage(AppiumDevice ap, string number,string text)
+        public static async void WriteMessage(AppiumDevice ap, string number, string text)
         {
 
-            Logger.log("New message to: " + number) ;
+            Logger.log("New message to: " + number);
             int iterations = 0;
             while (iterations < 20)
             {
@@ -305,7 +300,7 @@ namespace WhatsAppSpammer
                     await Task.Delay(1000);
                 }
             }
-           iterations = 0;
+            iterations = 0;
             while (iterations < 20)
             {
                 try
@@ -320,7 +315,7 @@ namespace WhatsAppSpammer
                     await Task.Delay(1000);
                 }
             }
-           
+
             iterations = 0;
             while (iterations < 25)
             {
@@ -371,7 +366,7 @@ namespace WhatsAppSpammer
         public static async void WriteMessages(AppiumDevice ap, NumberBase.NumberBase numberBase)
         {
             Logger.log("NumberBase: " + numberBase.Message.Name);
-            foreach(var number in numberBase.PhoneNumbers)
+            foreach (var number in numberBase.PhoneNumbers)
             {
                 int iterations = 0;
                 while (iterations < 20)

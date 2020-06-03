@@ -1,20 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WhatsappSpammer;
-using NUnit.Framework;
-using System.Management.Automation;
-using System.Threading;
-using MixERP.Net.VCards;
-using System.Configuration;
-using WhatsAppSpammer.SmsRegistrator;
-using WhatsAppSpammer.DeviceController;
 using WhatsAppSpammer.NumberBase;
 
 namespace WhatsAppSpammer
@@ -28,7 +16,7 @@ namespace WhatsAppSpammer
         private int Count { get; set; }
         public List<DeviceController.DeviceController> DeviceControllers { get; set; }
 
-        
+
         public WhatsAppSpammer()
         {
             InitializeComponent();
@@ -62,18 +50,19 @@ namespace WhatsAppSpammer
             int index = rand.Next(0, adresses.Length);
             textBoxProxy.Text = adresses[index].Trim();
 
-            DB.NumberBase.ToList<NumberBase.NumberBase>().ForEach(i => {
+            DB.NumberBase.ToList<NumberBase.NumberBase>().ForEach(i =>
+            {
                 comboBoxAdCompanies.Items.Add(i.Name);
             });
 
             Logger.initLogger();
             //Logger.loggerForm.Show();
-            
+
         }
 
 
         [Obsolete]
-        private  void buttonAppiumRun_Click(object sender, EventArgs e)
+        private void buttonAppiumRun_Click(object sender, EventArgs e)
         {
             try
             {
@@ -82,7 +71,7 @@ namespace WhatsAppSpammer
                    Apps.WhatsAppActivity_Home,
                    new Device(comboBoxAppium.Text)
                 );
-                    
+
             }
             catch (Exception ex)
             {
@@ -94,7 +83,7 @@ namespace WhatsAppSpammer
         {
             try
             {
-                Invoke(new Action(() =>  CreateDeviceController(
+                Invoke(new Action(() => CreateDeviceController(
                     comboBoxAppium.Text,
                     textBoxProxy.Text,
                     comboBoxSmsRegistrator.Text,
@@ -115,7 +104,8 @@ namespace WhatsAppSpammer
             string nickname,
             AppiumDevice device,
             string port
-        ) {
+        )
+        {
             DeviceController.DeviceController deviceController =
                     new DeviceController.DeviceController(
                         deviceName,
@@ -137,13 +127,13 @@ namespace WhatsAppSpammer
             string response = await ApiRequest.GetRequestAsync(Properties.Settings.Default.ProxyUrl);
             //string response = await ApiRequest.GetRequestAsync("https://my.virty.io/proxy_list/proxies.php?hash=0576f42d7cbe136471e6241a6531020f&type=http&format=format3");
             string[] adresses = response.Split('\n');
-          
+
             Random rand = new Random();
-            int index = rand.Next(0, adresses.Length-1);
+            int index = rand.Next(0, adresses.Length - 1);
             textBoxProxy.Text = adresses[index].Trim();
-                
+
         }
-            
+
         private async void buttonGenerateVcard_Click(object sender, EventArgs e)
         {
             try
@@ -158,17 +148,17 @@ namespace WhatsAppSpammer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-               
+
             }
         }
-    
+
         private string VCardGenerator()
         {
             List<string> numbers = new List<string>();
             var numberBases = new Dictionary<string, string>();
             foreach (var numberBase in numberBases.Values)
             {
-              //  numbers = numbers.Concat(numberBase.Numbers).ToList();
+                //  numbers = numbers.Concat(numberBase.Numbers).ToList();
             }
             string vcards = "";
             for (int i = 0; i < numbers.Count; i++)
@@ -178,11 +168,12 @@ namespace WhatsAppSpammer
             return vcards;
         }
 
+
         private void buttonSendVcard_Click(object sender, EventArgs e)
         {
             SendVCard();
         }
-        
+
         private async void SendVCard()
         {
             string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
@@ -191,13 +182,13 @@ namespace WhatsAppSpammer
             await CommandExecutor.AdbExecutor(command);
         }
 
-     
+
 
         [Obsolete]
         private void buttonAppiumContacts_Click(object sender, EventArgs e)
         {
             Invoke(
-                new Action(() => 
+                new Action(() =>
                     appium = new AppiumDevice(Apps.Contacts, Apps.ContatsActivity_Main, new Device(comboBoxAppium.Text)
                     )
                 )

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WhatsappSpammer
 {
@@ -29,7 +26,7 @@ namespace WhatsappSpammer
             file.Close();
             return numbers;
         }
-    
+
 
         public static List<string> GetFilenames(string path)
         {

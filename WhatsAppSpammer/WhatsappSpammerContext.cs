@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using WhatsAppSpammer.NumberBase;
 using WhatsAppSpammer.Numbers;
 
 namespace WhatsAppSpammer
-{        
+{
     public class WhatsappSpammerContext : DbContext
     {
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }

@@ -104,7 +104,7 @@ namespace WhatsAppSpammer
             objThread.IsBackground = true;
             objThread.Priority = ThreadPriority.AboveNormal;
             objThread.Start();
-            return result;   
+            return result;
         }
         public static string ExecuteCommandsAsync(List<string> commands)
         {
@@ -120,9 +120,9 @@ namespace WhatsAppSpammer
         }
         public static void ExecuteCommandAsyncVoid(string command)
         {
-            Thread objThread = new Thread(new ParameterizedThreadStart(ExecuteCommandSync)); 
-            objThread.IsBackground = true;             
-            objThread.Priority = ThreadPriority.AboveNormal;                
+            Thread objThread = new Thread(new ParameterizedThreadStart(ExecuteCommandSync));
+            objThread.IsBackground = true;
+            objThread.Priority = ThreadPriority.AboveNormal;
             objThread.Start(command);
         }
     }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
 {
     public abstract class AbstractSmsRegistrator
     {
-        public AbstractSmsRegistrator(string apiKey, string referal, string counrty) {
+        public AbstractSmsRegistrator(string apiKey, string referal, string counrty)
+        {
             ApiKey = apiKey;
             Referal = referal;
             Country = counrty;
@@ -19,12 +16,12 @@ namespace WhatsAppSpammer
             Referal = Properties.Settings.Default.Referal;
             Country = Properties.Settings.Default.Country;
         }
-        public string BaseUrl { get; set; } 
-        
+        public string BaseUrl { get; set; }
+
         public string ApiKey { get; set; }
-        
+
         public string Referal { get; set; }
-        
+
         public string Country { get; set; }
 
         public abstract Task<string> GetNumber();

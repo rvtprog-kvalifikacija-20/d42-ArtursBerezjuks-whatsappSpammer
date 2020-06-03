@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 namespace WhatsAppSpammer
 {
@@ -12,7 +11,7 @@ namespace WhatsAppSpammer
         /// </summary>
         public Dictionary<string, string> activationPhones;
 
-        public  SmsActivate(string apiKey, string referal,string counrty) : base(apiKey, referal, counrty)
+        public SmsActivate(string apiKey, string referal, string counrty) : base(apiKey, referal, counrty)
         {
             BaseUrl = "https://sms-activate.ru/stubs/handler_api.php";
             activationPhones = new Dictionary<string, string>();
@@ -56,14 +55,14 @@ namespace WhatsAppSpammer
         }
         public override async Task<string> GetCode(string phone)
         {
-            string request = BaseUrl + "?api_key=" + ApiKey + "&action=getStatus&id=" + activationPhones.FirstOrDefault(i => i.Value==phone).Key;
+            string request = BaseUrl + "?api_key=" + ApiKey + "&action=getStatus&id=" + activationPhones.FirstOrDefault(i => i.Value == phone).Key;
             string response = await ApiRequest.GetRequestAsync(request);
             string[] statusCode = response.Split(':');
             if (statusCode[0] == "STATUS_OK")
             {
                 return statusCode[1];
             }
-            else if(statusCode[0] == "STATUS_WAIT_CODE" )
+            else if (statusCode[0] == "STATUS_WAIT_CODE")
             {
                 return "STATUS_WAIT_CODE";
             }
