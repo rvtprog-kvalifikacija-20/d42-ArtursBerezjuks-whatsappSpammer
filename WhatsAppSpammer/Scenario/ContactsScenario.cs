@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
@@ -14,34 +16,30 @@ namespace WhatsAppSpammer
             var el3 = ap.GetElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.ListView/android.widget.TextView[2]");
             el3.Click();
         }
-        public static string VCardGenerator(NumberBase.NumberBase numberBase)
+
+        public static async void GenerateVCard(DeviceController.DeviceController device)
         {
-            string vcards = "";
-            var numberBases = new Dictionary<string, string>();
-            foreach (var phoneNumber in numberBase.PhoneNumbers)
+            var phoneNumbers = device.DB.PhoneNumbers.Where(p => p.NumberBaseId == device.NumberBase.Id).ToList();
+            var pathToExe = System.Reflection.Assembly.GetEntryAssembly().Location.Split('\\');
+            string path = string.Join("\\" , pathToExe.Take(pathToExe.Count() - 1).ToArray()); 
+            string filename = path + "\\" + device.NumberBase.Name + ".vcf";
+            string vcf = "";
+            foreach (var phoneNumber in phoneNumbers)
             {
-                vcards += "BEGIN:VCARD\nVERSION:2.1\nN:;+" + phoneNumber.Number + ";;;\nFN:+" + phoneNumber.Number + "\nTEL;CELL:+" + phoneNumber.Number + "\nEND:VCARD\n"; ;
+                vcf += "BEGIN:VCARD\nVERSION:2.1\nN:;+" + phoneNumber.Number + ";;;\nFN:+" + phoneNumber.Number + "\nTEL;CELL:+" + phoneNumber.Number + "\nEND:VCARD\n";
             }
 
-            return vcards;
-        }
-        public static async void SendVCard(NumberBase.NumberBase numberBase)
-        {
-            string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
-            CommandExecutor.ExecuteCommandAsync(command);
-            command = " push " + " "+ numberBase.Name+ ".vcf /sdcard";
-            await CommandExecutor.AdbExecutor(command);
-        }
-
-        public static async void WriteFileVCard(NumberBase.NumberBase numberBase)
-        {
-            
-            string vCardText = await Task.Run(() => VCardGenerator(numberBase));
-            await Task.Run(() =>
+            if (!File.Exists(filename))
             {
-                System.IO.File.WriteAllText(numberBase.Name+".vcf", vCardText);
-            });
-               
+                File.Create(filename);
+            }
+
+            System.IO.File.WriteAllText(filename, vcf);
+            string command = "cd " + Properties.Settings.Default.PathToSDK + "\\platform-tools";
+            CommandExecutor.ExecuteCommandAsync(command);
+            command = " push " + filename + " /sdcard";
+            CommandExecutor.AdbExecutor(command);
+            device.AppiumDevice.driver.PushFile("/sdcard", new FileInfo(device.NumberBase.Name + ".vcf"));
         }
     }
 }

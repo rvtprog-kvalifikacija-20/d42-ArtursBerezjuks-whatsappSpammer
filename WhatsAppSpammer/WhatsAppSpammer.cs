@@ -49,7 +49,7 @@ namespace WhatsAppSpammer
             Random rand = new Random();
             int index = rand.Next(0, adresses.Length);
             textBoxProxy.Text = adresses[index].Trim();
-
+            
             DB.NumberBase.ToList<NumberBase.NumberBase>().ForEach(i =>
             {
                 comboBoxAdCompanies.Items.Add(i.Name);
@@ -83,27 +83,52 @@ namespace WhatsAppSpammer
         {
             try
             {
-                Invoke(new Action(() => CreateDeviceController(
+                if (comboBoxAppium.Text == "")
+                {
+                    throw new Exception("Please slect device");
+                }
+                if (comboBoxSmsRegistrator.Text == "")
+                {
+                    throw new Exception("Please select SMS registrator");
+                }
+                if (textBoxName.Text == "")
+                {
+                    throw new Exception("Please input nickname");
+                }
+                if (textBoxAppiumPort.Text == "")
+                {
+                    throw new Exception("Please input appium port");
+                }
+                if (comboBoxAdCompanies.Text == "")
+                {
+                    throw new Exception("Please select ad company");
+                }
+
+                
+                CreateDeviceController(
                     comboBoxAppium.Text,
                     textBoxProxy.Text,
                     comboBoxSmsRegistrator.Text,
                     textBoxName.Text,
                     null,
-                    textBoxAppiumPort.Text)
-                ));
+                    textBoxAppiumPort.Text,
+                    DB.NumberBase.Where(n => n.Name == comboBoxAdCompanies.Text).FirstOrDefault()
+                );
+             
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        public void CreateDeviceController(
+        public async void CreateDeviceController(
             string deviceName,
             string proxy,
             string smsRegistrator,
             string nickname,
             AppiumDevice device,
-            string port
+            string port,
+            NumberBase.NumberBase numberBase
         )
         {
             DeviceController.DeviceController deviceController =
@@ -113,13 +138,26 @@ namespace WhatsAppSpammer
                         smsRegistrator,
                         nickname,
                         null,
-                        port
+                        port,
+                        numberBase
                     );
             DeviceControllers.Add(deviceController);
 
-            deviceController.DeviceControllerForm.Show();
-            WhatsAppScenario.Registration(deviceController);
+            deviceController.DeviceControllerForm.Show();                
+            try
+            {
+                if (await WhatsAppScenario.Registration(deviceController))
+                {
+                    await WhatsAppScenario.WriteMessages(deviceController);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
+                
+            
             // Automatization(comboBoxAppium.Text, textBoxProxy.Text);
         }
         private async void buttonGetProxy_Click(object sender, EventArgs e)
@@ -240,8 +278,26 @@ namespace WhatsAppSpammer
 
         private void buttonNumberBase_Click(object sender, EventArgs e)
         {
-            CreateNumberBaseForm form = new CreateNumberBaseForm();
+            CreateNumberBaseForm form = new CreateNumberBaseForm(DB);
             form.Show();
+        }
+
+        private void comboBoxAdCompanies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (comboBoxAdCompanies.Text != "") {
+                var form = new EditNumberBaseForm(DB, DB.NumberBase.Where(i => i.Name == comboBoxAdCompanies.Text).FirstOrDefault());
+                form.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select ad company");
+            }
+            
         }
     }
 }

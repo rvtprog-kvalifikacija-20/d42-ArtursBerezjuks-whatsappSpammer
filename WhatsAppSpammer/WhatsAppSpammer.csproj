@@ -329,6 +329,14 @@
     <Compile Include="Migrations\202006031344284_numberbase-change.designer.cs">
       <DependentUpon>202006031344284_numberbase-change.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006081947363_ForeignKey.cs" />
+    <Compile Include="Migrations\202006081947363_ForeignKey.designer.cs">
+      <DependentUpon>202006081947363_ForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006121217591_FK.cs" />
+    <Compile Include="Migrations\202006121217591_FK.designer.cs">
+      <DependentUpon>202006121217591_FK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NumberBase\CreateNumberBaseForm.cs">
       <SubType>Form</SubType>
@@ -336,6 +344,13 @@
     <Compile Include="NumberBase\CreateNumberBaseForm.Designer.cs">
       <DependentUpon>CreateNumberBaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NumberBase\EditNumberBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NumberBase\EditNumberBaseForm.Designer.cs">
+      <DependentUpon>EditNumberBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumberBase\ModelBuilder.cs" />
     <Compile Include="NumberBase\PhoneNumbers.cs" />
     <Compile Include="WhatsappSpammerContext.cs" />
     <Compile Include="DataSet.Designer.cs">
@@ -393,8 +408,17 @@
     <EmbeddedResource Include="Migrations\202006031344284_numberbase-change.resx">
       <DependentUpon>202006031344284_numberbase-change.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006081947363_ForeignKey.resx">
+      <DependentUpon>202006081947363_ForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006121217591_FK.resx">
+      <DependentUpon>202006121217591_FK.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NumberBase\CreateNumberBaseForm.resx">
       <DependentUpon>CreateNumberBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberBase\EditNumberBaseForm.resx">
+      <DependentUpon>EditNumberBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

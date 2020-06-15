@@ -44,6 +44,7 @@
             this.comboBoxAdCompanies = new System.Windows.Forms.ComboBox();
             this.labelAdCompany = new System.Windows.Forms.Label();
             this.buttonNumberBase = new System.Windows.Forms.Button();
+            this.buttonEdit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelProxy
@@ -169,8 +170,9 @@
             this.comboBoxAdCompanies.FormattingEnabled = true;
             this.comboBoxAdCompanies.Location = new System.Drawing.Point(98, 159);
             this.comboBoxAdCompanies.Name = "comboBoxAdCompanies";
-            this.comboBoxAdCompanies.Size = new System.Drawing.Size(242, 21);
+            this.comboBoxAdCompanies.Size = new System.Drawing.Size(193, 21);
             this.comboBoxAdCompanies.TabIndex = 64;
+            this.comboBoxAdCompanies.SelectedIndexChanged += new System.EventHandler(this.comboBoxAdCompanies_SelectedIndexChanged);
             // 
             // labelAdCompany
             // 
@@ -191,11 +193,22 @@
             this.buttonNumberBase.UseVisualStyleBackColor = true;
             this.buttonNumberBase.Click += new System.EventHandler(this.buttonNumberBase_Click);
             // 
+            // buttonEdit
+            // 
+            this.buttonEdit.Location = new System.Drawing.Point(298, 159);
+            this.buttonEdit.Name = "buttonEdit";
+            this.buttonEdit.Size = new System.Drawing.Size(42, 23);
+            this.buttonEdit.TabIndex = 68;
+            this.buttonEdit.Text = "Edit";
+            this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            // 
             // WhatsAppSpammer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 320);
+            this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.buttonNumberBase);
             this.Controls.Add(this.labelAdCompany);
             this.Controls.Add(this.comboBoxAdCompanies);
@@ -239,6 +252,7 @@
         private System.Windows.Forms.ComboBox comboBoxAdCompanies;
         private System.Windows.Forms.Label labelAdCompany;
         private System.Windows.Forms.Button buttonNumberBase;
+        private System.Windows.Forms.Button buttonEdit;
     }
 }
 

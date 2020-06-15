@@ -7,6 +7,7 @@ namespace WhatsAppSpammer.DeviceController
 {
     public class DeviceController
     {
+        public WhatsappSpammerContext DB { get; set; }
         public string DeviceName { get; set; }
         public AppiumDevice AppiumDevice { get; set; }
         public string Nickname { get; set; }
@@ -23,9 +24,11 @@ namespace WhatsAppSpammer.DeviceController
             string smsRegistratorName,
             string nickname,
             AppiumDevice appiumDevice,
-            string port
+            string port,
+            NumberBase.NumberBase numberBase
         )
         {
+            DB = new WhatsappSpammerContext();
             Assembly assembly = Assembly.GetExecutingAssembly();
             DeviceName = deviceName;
             Proxy = proxy;
@@ -33,6 +36,7 @@ namespace WhatsAppSpammer.DeviceController
             SmsRegistrator = (AbstractSmsRegistrator)CreateInstance(smsRegistratorName);
             AppiumDevice = appiumDevice;
             Port = port;
+            NumberBase = numberBase;
             DeviceControllerForm = new DeviceControllerForm(this);
         }
         public void Log(string text)

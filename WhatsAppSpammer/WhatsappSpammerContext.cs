@@ -10,5 +10,6 @@ namespace WhatsAppSpammer
         public DbSet<ActivationNumber> ActivationNumbers { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<NumberBase.NumberBase> NumberBase { get; set; }
+
     }
 }

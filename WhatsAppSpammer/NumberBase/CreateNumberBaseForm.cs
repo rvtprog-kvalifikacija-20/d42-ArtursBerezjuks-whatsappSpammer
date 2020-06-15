@@ -9,8 +9,10 @@ namespace WhatsAppSpammer.NumberBase
 {
     public partial class CreateNumberBaseForm : Form
     {
-        public CreateNumberBaseForm()
+        public WhatsappSpammerContext DB;
+        public CreateNumberBaseForm(WhatsappSpammerContext context)
         {
+            DB = context;
             InitializeComponent();
         }
 
@@ -21,30 +23,27 @@ namespace WhatsAppSpammer.NumberBase
 
         private void buttonCreateNumberBase_Click(object sender, EventArgs e)
         {
-            using (WhatsappSpammerContext DB = new WhatsappSpammerContext())
+            
+            List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
+
+            FileReader.ReadFile(textBoxPath.Text).ForEach(i => phoneNumbers.Add(new PhoneNumber(i, null, null, null, null)));
+            DB.NumberBase.Add(
+                new NumberBase(
+                    textBoxName.Text,
+                    phoneNumbers,
+                    new Message(textBoxMessage.Text)
+                    )
+                );
+            try
             {
-                List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
+                DB.SaveChanges();
 
-                FileReader.ReadFile(textBoxPath.Text).ForEach(i => phoneNumbers.Add(new PhoneNumber(i, null, null, null, null)));
-                DB.NumberBase.Add(
-                    new NumberBase(
-                        textBoxName.Text,
-                        phoneNumbers,
-                        new Message(textBoxMessage.Text)
-                        )
-                    );
-
-                var number = DB.NumberBase.Find(textBoxName.Text);
-                if (number != null)
-                {
-
-                    MessageBox.Show("Ad company successfully added!");
-                }
-                else
-                {
-
-                    MessageBox.Show("Ad company not added, something went wrong");
-                }
+                MessageBox.Show("Ad company successfully added!");
+                this.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ad company not added, something went wrong");
             }
         }
 

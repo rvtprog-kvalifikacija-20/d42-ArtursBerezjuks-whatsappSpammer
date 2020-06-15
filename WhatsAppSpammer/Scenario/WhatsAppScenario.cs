@@ -1,5 +1,6 @@
 ﻿using Castle.Core.Internal;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace WhatsAppSpammer
@@ -7,22 +8,193 @@ namespace WhatsAppSpammer
     public static class WhatsAppScenario
     {
 
-        public static async void Registration(
+        public static async Task<bool> Registration(
             DeviceController.DeviceController deviceController
         )
         {
-            Registration(
-                deviceController,
-                deviceController.DeviceName,
-                deviceController.Proxy,
-                deviceController.AppiumDevice,
-                deviceController.SmsRegistrator,
-                deviceController.Nickname,
-                deviceController.Port
-            );
+            bool banned = false;
+            int iterations = 0;
+
+            string command = "emulator @" + deviceController.DeviceName;
+            if (!deviceController.Proxy.IsNullOrEmpty())
+            {
+                command += " -http-proxy " + deviceController.AppiumDevice;
+                System.IO.File.AppendAllText("usedproxy.txt", deviceController.Proxy + "\n");
+                System.IO.File.AppendAllText("usedproxy.txt", "\n");
+            }
+            command += " -wipe-data -no-snapshot-load";
+            deviceController.Log("Emulator starting");
+            Logger.log("Emulator starting");
+            CommandExecutor.ExecuteCommandAsync(command);
+            await Task.Delay(5000);
+
+            /*Open contacts*/
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    deviceController.Log("Running Contacts app");
+                    Logger.log("Running Contacts app");
+                    deviceController.AppiumDevice = new AppiumDevice(Apps.Contacts,
+                        Apps.ContatsActivity_Main,
+                        new Device(deviceController.DeviceName),
+                        deviceController.Port
+                    );
+                    ContactsScenario.GenerateVCard(deviceController);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(1000);
+                }
+            }
+            /*Import Contacts*/
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    deviceController.Log("Importing contacts");
+                    Logger.log("Importing contacts");
+                    ContactsScenario.ImportContacts(deviceController.AppiumDevice);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(500);
+                }
+            }
+
+            /*Get number to activate*/
+            string number = "";
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    number = await deviceController.SmsRegistrator.GetNumber();
+                    deviceController.Log("Recived number: " + number);
+                    Logger.log("Recived number: " + number);
+                    number = number.Remove(0, 1);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    if (iterations > 10)
+                    {
+                        throw new Exception("Sms registrator error");
+                    }
+                    await Task.Delay(2000);
+                }
+            }
+
+            Random random = new Random();
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    deviceController.Log("Registration started");
+                    Logger.log("Registration started");
+                    deviceController.AppiumDevice = new AppiumDevice(Apps.WhatsApp,
+                            Apps.WhatsAppActivity_Eula,
+                            new Device(deviceController.DeviceName),
+                            deviceController.Port);
+                    banned = await WhatsAppScenario.Registration(deviceController.AppiumDevice, number, "7");
+                    if (banned)
+                    {
+                        deviceController.Log("Number is banned");
+                        Logger.log("Number is banned");
+                        deviceController.AppiumDevice.CloseApp();
+                        deviceController.SmsRegistrator.SetStatus("7" + number, "10");
+                        deviceController.SmsRegistrator.SetStatus("7" + number, "-1");
+                        iterations = 0;
+                        while (iterations < 60)
+                        {
+                            try
+                            {
+                                number = await deviceController.SmsRegistrator.GetNumber();
+                                deviceController.Log("Waiting for code");
+                                Logger.log("Waiting for code");
+                                number = number.Remove(0, 1);
+                                break;
+                            }
+                            catch
+                            {
+                                iterations++;
+                                await Task.Delay(5000);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(2000);
+                }
+            }
+
+            deviceController.SmsRegistrator.PhoneReady("7" + number);
+
+            iterations = 0;
+            while (iterations < 1200)
+            {
+                try
+                {
+                    string code = await deviceController.SmsRegistrator.GetCode("7" + number);
+                    if (code != "STATUS_WAIT_CODE")
+                    {
+                        WhatsAppScenario.VerifyCode(deviceController.AppiumDevice, code);
+                        break;
+                    }
+                    else
+                    {
+                        iterations++;
+                        await Task.Delay(1000);
+                    }
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(1000);
+                }
+            }
+
+            deviceController.SmsRegistrator.SetStatus("7" + number, "6");
+
+            iterations = 0;
+            while (iterations < 60)
+            {
+                try
+                {
+                    WhatsAppScenario.WriteName(deviceController.AppiumDevice, deviceController.Nickname);
+                    break;
+                }
+                catch
+                {
+                    iterations++;
+                    await Task.Delay(500);
+                    if (iterations > 55)
+                    {
+                        return true;
+                    }
+                }
+            }
+            deviceController.Log("Registration finished");
+            return banned;
+           
         }
 
-        public static async void Registration(
+        public static async Task<bool> Registration(
             DeviceController.DeviceController deviceController,
             string emulatorImageName,
             string proxy,
@@ -30,9 +202,7 @@ namespace WhatsAppSpammer
             AbstractSmsRegistrator smsRegistrator,
             string nickname,
             string port
-        )
-        {
-
+        ) {
             bool banned = false;
             int iterations = 0;
 
@@ -41,7 +211,7 @@ namespace WhatsAppSpammer
             {
                 command += " -http-proxy " + proxy;
                 System.IO.File.AppendAllText("usedproxy.txt", proxy + "\n");
-
+                System.IO.File.AppendAllText("usedproxy.txt", "\n");
             }
             command += " -wipe-data -no-snapshot-load";
             deviceController.Log("Emulator starting");
@@ -62,7 +232,7 @@ namespace WhatsAppSpammer
                         new Device(emulatorImageName),
                         port
                     );
-                    SendVCard();
+                    ContactsScenario.GenerateVCard(deviceController);
                     break;
                 }
                 catch
@@ -207,14 +377,9 @@ namespace WhatsAppSpammer
                 }
             }
             deviceController.Log("Registration finished");
+            return banned;
         }
-        public static async void SendVCard()
-        {
-            string command = "cd " + Properties.Settings.Default.PathToSDK + "/platform-tools";
-            CommandExecutor.ExecuteCommandAsync(command);
-            command = " push " + " vcard.vcf /sdcard";
-            await CommandExecutor.AdbExecutor(command);
-        }
+       
 
         public static async Task<bool> Registration(AppiumDevice ap, string phone, string cc)
         {
@@ -363,89 +528,99 @@ namespace WhatsAppSpammer
             }
             ap.Back();
         }
-        public static async void WriteMessages(AppiumDevice ap, NumberBase.NumberBase numberBase)
+        public static async Task<bool> WriteMessages(DeviceController.DeviceController device)
         {
-            Logger.log("NumberBase: " + numberBase.Message.Name);
-            foreach (var number in numberBase.PhoneNumbers)
+            AppiumDevice ap = device.AppiumDevice;
+            NumberBase.NumberBase numberBase = device.NumberBase;
+            Logger.log("NumberBase: " + numberBase.Name);
+            try
             {
-                int iterations = 0;
-                while (iterations < 20)
+                foreach (var number in numberBase.PhoneNumbers)
                 {
-                    try
+                    int iterations = 0;
+                    while (iterations < 20)
                     {
-                        var el17 = ap.GetElementByAccessibilityID("Search");
-                        el17.Click();
-                        break;
+                        try
+                        {
+                            var el17 = ap.GetElementByAccessibilityID("Search");
+                            el17.Click();
+                            break;
+                        }
+                        catch
+                        {
+                            iterations++;
+                            await Task.Delay(1000);
+                        }
                     }
-                    catch
+                    iterations = 0;
+                    while (iterations < 20)
                     {
-                        iterations++;
-                        await Task.Delay(1000);
+                        try
+                        {
+                            var el19 = ap.GetElementByID("com.whatsapp:id/search_src_text");
+                            el19.SendKeys(number.Number);
+                            break;
+                        }
+                        catch
+                        {
+                            iterations++;
+                            await Task.Delay(1000);
+                        }
                     }
-                }
-                iterations = 0;
-                while (iterations < 20)
-                {
-                    try
-                    {
-                        var el19 = ap.GetElementByID("com.whatsapp:id/search_src_text");
-                        el19.SendKeys(number.Number);
-                        break;
-                    }
-                    catch
-                    {
-                        iterations++;
-                        await Task.Delay(1000);
-                    }
-                }
 
-                iterations = 0;
-                while (iterations < 25)
-                {
-                    try
+                    iterations = 0;
+                    while (iterations < 25)
                     {
-                        var el20 = ap.GetElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/androidx.viewpager.widget.ViewPager/android.widget.LinearLayout/android.widget.ListView/android.widget.RelativeLayout[1]");
-                        el20.Click();
-                        break;
+                        try
+                        {
+                            var el20 = ap.GetElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/androidx.viewpager.widget.ViewPager/android.widget.LinearLayout/android.widget.ListView/android.widget.RelativeLayout[1]");
+                            el20.Click();
+                            break;
+                        }
+                        catch
+                        {
+                            iterations++;
+                            await Task.Delay(1000);
+                        }
                     }
-                    catch
+                    while (iterations < 20)
                     {
-                        iterations++;
-                        await Task.Delay(1000);
+                        try
+                        {
+                            var el21 = ap.GetElementByID("com.whatsapp:id/entry");
+                            el21.SendKeys(numberBase.Message.MessageText);
+                            break;
+                        }
+                        catch
+                        {
+                            iterations++;
+                            await Task.Delay(1000);
+                        }
                     }
-                }
-                while (iterations < 20)
-                {
-                    try
+                    while (iterations < 20)
                     {
-                        var el21 = ap.GetElementByID("com.whatsapp:id/entry");
-                        el21.SendKeys(numberBase.Message.MessageText);
-                        break;
-                    }
-                    catch
-                    {
-                        iterations++;
-                        await Task.Delay(1000);
-                    }
-                }
-                while (iterations < 20)
-                {
-                    try
-                    {
-                        var el22 = ap.GetElementByAccessibilityID("Send");
-                        el22.Click();
+                        try
+                        {
+                            var el22 = ap.GetElementByAccessibilityID("Send");
+                            el22.Click();
 
-                        Logger.log("Message sent");
-                        break;
+                            Logger.log("Message sent");
+                            break;
+                        }
+                        catch
+                        {
+                            iterations++;
+                            await Task.Delay(1000);
+                        }
                     }
-                    catch
-                    {
-                        iterations++;
-                        await Task.Delay(1000);
-                    }
+                    ap.Back();
                 }
-                ap.Back();
             }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

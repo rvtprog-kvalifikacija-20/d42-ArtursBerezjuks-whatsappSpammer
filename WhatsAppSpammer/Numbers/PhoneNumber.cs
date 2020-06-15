@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WhatsAppSpammer.Numbers
 {
@@ -21,7 +23,11 @@ namespace WhatsAppSpammer.Numbers
             Surname = surname;
             Gender = gender;
         }
-        [System.ComponentModel.DataAnnotations.Key]
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public int NumberBaseId { get; set; }
         public string Number { get; set; }
 
         public bool? HaveWhatsapp { get; set; }
